@@ -16,91 +16,94 @@ router.get('/', async function(req, res, next) {
     const { name } = req.query ;
     //console.log('name: ',name);
     if (name) {
-    try {
-      const resAxios = await axios.get(spoonacularURL + 'complexSearch?query=' + name + '&number=2'+ '&apiKey=' + API_KEY );
-      const { number, results} = resAxios.data ;
-      //console.log('number: ', number);
-     if (results.length > 0) {
-      let response = [];
-      let obj = {};
-      for (let i = 0; i< results.length ; i++ ) {
-        const resAxios = await axios.get(spoonacularURL + results[i].id + '/information?includeNutrition=false'+ '&apiKey=' + API_KEY );  
-        obj = {nombre: results[i].title, imagen: results[i].image, idApi: results[i].id, dietas: resAxios.data.diets }
-        response.push(obj);
-        }
-      // ahora busco en la base de datos por recetas propias  
-      // ****** Falta arreglar para que no importe mayusculas/minuscula en la comparacion  *****
-      const recPropias = await Recipe.findAll({where: {nombre: {[Op.substring]: name}}, include: Diet});  
-      // console.log('Recetas propias filtarads: ' ,recPropias);
-      recPropias.forEach(e => {
-        let objprop = {nombre: e.nombre, imagen: "", idApi: e.id, dietas: e.diets.map(d => d.nombre  )}
+      try {
+        let response = [];
+        const resAxios = await axios.get(spoonacularURL + 'complexSearch?query=' + name + '&number=9' + '&addRecipeInformation=true' + '&apiKey=' + API_KEY );
+        const { number, results} = resAxios.data ;
+         
+         if (results.length > 0) {
+          // let response = [];
+          let obj = {};
+          for (let i = 0; i< results.length ; i++ ) {
+            //const resAxios = await axios.get(spoonacularURL + results[i].id + '/information?includeNutrition=false'+ '&apiKey=' + API_KEY );  
+            obj = {nombre: results[i].title, imagen: results[i].image, idApi: results[i].id, fuente: 'Api', puntuacion: results[i].spoonacularScore,  dietas: results[i].diets }
+            response.push(obj);
+          }
+        } 
+        // ahora busco en la base de datos por recetas propias  
+        // ****** Falta arreglar para que no importe mayusculas/minuscula en la comparacion  *****
+        const recPropias = await Recipe.findAll({where: {nombre: {[Op.substring]: name}}, include: Diet});  
+        // console.log('Recetas propias filtarads: ' ,recPropias);
+        recPropias.forEach(e => {
+        let objprop = {nombre: e.nombre, imagen: "", idApi: e.id, fuente: 'Propia', puntuacion: e.puntuacion, dietas: e.diets.map(d => d.nombre  )}
         response.push(objprop);
-      })
-
-      res.json(response);
-     }
-      else 
-      {
-       res.send('No vino nada');
+        })
+        
+        response.length > 0 ?  res.json(response)    : res.send('No vino nada');
+        
       }
+      catch (error) {next(error)};
+    } 
+    else 
+    {
+     // Si no viene parametro de serach le mando todas las recetas propias 
+     const recetas = await Recipe.findAll({include: Diet});
+     //console.log('Recetas: ', recetas);
+     return res.json(recetas);
     }
-    catch (error) {next(error)};
-  } 
-  else {
-  const recetas = await Recipe.findAll({include: Diet});
-  //console.log('Recetas: ', recetas);
-  return res.json(recetas);
-  }
 })
 
-// Busca una receta en partucular segun su id
+// Busca una receta en particular segun su id
 router.get('/:idReceta', async function(req, res, next) {
-    const idReceta = req.params.idReceta;
-    if (idReceta > 100) {
+    const idRecetaArray = req.params.idReceta.split('-');
+    const idReceta = idRecetaArray[0];
+    const fuente = idRecetaArray[1];
     try {
-     const resAxios = await axios.get(spoonacularURL + idReceta + '/information?includeNutrition=false'+ '&apiKey=' + API_KEY );     
-     const {title, image, summary, spoonacularScore, healthScore, instructions, diets, dishTypes } = resAxios.data;
-     let obj = {
+      if (fuente === 'Api') {
+      
+       const resAxios = await axios.get(spoonacularURL + idReceta + '/information?includeNutrition=false'+ '&apiKey=' + API_KEY );     
+       const {id, title, image, summary, spoonacularScore, healthScore, instructions, diets, dishTypes } = resAxios.data;
+       let obj = {
+        idApi: id,
         nombre: title,
         imagen: image,
-        tipo_dieta : diets.join(),
-        tipo_plato: dishTypes.join(),
+        tipo_dieta : diets.join(', '),
+        tipo_plato: dishTypes.join(', '),
         resumen: summary,
         puntuacion: spoonacularScore,
         nivel_salud: healthScore,
         paso_a_paso: instructions
-     }
-     res.status(200).json(obj);
+       }
+       res.status(200).json(obj);
+      }
+      else {
+        const receta =  await Recipe.findByPk(idReceta, {include: Diet})
+        let obj = {
+        id: receta.id, 
+        nonbre: receta.nombre,
+        imagen: '',
+        tipo_dieta: receta.diets.join(),
+        resumen: receta.resumen,
+        puntuacion: receta.puntuacion,
+        nivel_salud: receta.nivel,
+        paso_a_paso: receta.instrucciones
+        }
+        res.json(obj)
+      } 
     }
     catch (error) {next(error)};
-  }
-  else {
-   const receta =  await Recipe.findByPk(idReceta, {include: Diet})
-   let obj = {
-    id: receta.id, 
-    nonbre: receta.nombre,
-    imagen: '',
-    tipo_dieta: receta.diets.join(),
-    resumen: receta.resumen,
-    puntuacion: receta.puntuacion,
-    nivel_salud: receta.nivel,
-    paso_a_paso: receta.instrucciones
-
-   }
-   res.json(obj)
-  } 
-
 })
 
 // Carga recetas propias en la base de datos
 router.post('/', async function(req, res, next){
- const {nombre, resumen, puntuacion, nivel, instrucciones, dietas} = req.body ;
+ const {nombre, resumen, puntuacion, nivel, image, instrucciones, dietas} = req.body ;
  try {
  const recipe = await Recipe.create({
     nombre: nombre,
     resumen: resumen,
     puntuacion: puntuacion,
     nivel: nivel,
+    imagen: image,
     instrucciones: instrucciones
     
   })
@@ -116,7 +119,7 @@ router.post('/', async function(req, res, next){
   await recipe.setDiets(dietasResultFiltered)
   }
 
-  return res.status(200).send("Cargo bien")
+  return res.status(200).send(recipe)
 }
 catch (error) {next(error)}; 
 

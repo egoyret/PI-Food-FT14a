@@ -25,14 +25,18 @@ const server = require('./src/app.js');
 const { conn, Diet } = require('./src/db.js');
 
 // Syncing all the models at once.
-// Inicializo el modelo de base de datos, haciendo los cambios que correspondan en la tablas que ya existan (force: true).
+// Inicializo el modelo de base de datos, haciendo los cambios que correspondan en la tablas que ya existan o creando tablas nuevas (force: true).
 // Luego me pongo a escuchar el puerto 3001
-conn.sync({ force: false }).then(() => {
+const update = true ;
+conn.sync({ force: update }).then(() => {
   server.listen(3001, () => {
     console.log('%s listening at 3001'); // eslint-disable-line no-console
-    const dietas = ["Gluten Free","Ketogenic", "Vegetarian", "Lacto-Vegetarina", "Ovo-Vegetarian","Vegan","Pescetarian","Paleo","Primal","Whole30"];
-    dietas.forEach(async (element) => await Diet.create({nombre: element}));
-    console.log('Tipos de dieta pre-cargadas')
+    if (update)
+    {
+      const dietas = ["Gluten Free","Ketogenic", "Vegetarian", "Lacto-Vegetarina", "Ovo-Vegetarian","Vegan","Pescetarian","Paleo","Primal","Whole30"];
+      dietas.forEach(async (element) => await Diet.create({nombre: element}));
+      console.log('Tipos de dieta pre-cargadas')
+    }
 
   });
 });

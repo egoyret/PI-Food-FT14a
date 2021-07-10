@@ -3,6 +3,9 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const routes = require('./routes/index.js');
+const cors = require("cors")
+
+
 
 const {Recipe, Diet, conn} =  require('./db.js');
 
@@ -18,7 +21,7 @@ server.use(cookieParser());
 server.use(morgan('dev'));
 // Este lo agrego yo: (es el que se usa ahora en lugar del bodyParser)
 server.use(express.json());
-
+server.use(cors())
 // Con esto damos permiso para varias cosas, y evitamos errores.
 // muy importante es el next para que contunue la ejecucion que sigue.
 server.use((req, res, next) => {

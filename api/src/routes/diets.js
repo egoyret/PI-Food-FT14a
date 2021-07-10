@@ -2,7 +2,7 @@ const { Diet } = require ('../db.js');
 const router = require('express').Router();
 
 router.get('/types', function(req,res,next) {
-    Diet.findAll()
+    return Diet.findAll()
      .then(r => res.json(r))
      .catch(error => next(error))
 });

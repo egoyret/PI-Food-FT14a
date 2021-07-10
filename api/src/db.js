@@ -1,3 +1,5 @@
+// Aca inicializamos sequelize y hacemos las relaciones entre los modelos (tablas de la BD)
+
 require('dotenv').config();
 const { Sequelize } = require('sequelize');
 const fs = require('fs');
@@ -6,6 +8,8 @@ const {
   DB_USER, DB_PASSWORD, DB_HOST,
 } = process.env;
 
+// Creo mi instancia de la clase Sequelize y direcciono a mi base de datos.
+// Previamente debo haber creado mi base de datos (food) desde la consola de PSQL como CREATE DATABASE food
 const sequelize = new Sequelize(`postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/food`, {
   logging: false, // set to console.log to see the raw SQL queries
   native: false, // lets Sequelize know we can use pg-native for ~30% more speed
@@ -43,4 +47,4 @@ module.exports = {
   ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');
   conn: sequelize,     // para importart la conexión { conn } = require('./db.js');
 };
-
+// La conexion (conn) tiene la instancia de sequeliza que cree mas arriba con new.
