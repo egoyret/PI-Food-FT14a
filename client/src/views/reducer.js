@@ -1,6 +1,7 @@
-import { SET_RECETAS } from './actions'
+import { SET_RECETAS, SET_RECETA } from './actions'
 const initialState = {
-recetas: []
+recetas: [],
+receta: {}
 };
 export default function reducer(state = initialState, action) {
     switch(action.type) {
@@ -8,6 +9,13 @@ export default function reducer(state = initialState, action) {
             ...state,
             recetas: action.payload
         }
+
+        case SET_RECETA: return {
+            ...state,
+            receta: action.payload
+        }
+
+
 
 
         default: return state

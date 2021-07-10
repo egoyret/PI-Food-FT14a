@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
-// import { useState } from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from 'react-router-dom';
 import { getRecetas } from "./actions.js";
 // import axios from "axios";
 
@@ -18,22 +18,78 @@ function Home() {
     // Version Redux (usando hooks en vez de connect para traer datos del store)
     const recetas = useSelector(state => state.recetas)
     const dispatch = useDispatch() 
-    useEffect(() => {
-        dispatch(getRecetas())
-    },[dispatch]);
+    //useEffect(() => {
+    //    dispatch(getRecetas())
+    //},[dispatch]);
+
+    const [title, setTitle] = useState('');
+    const [puntuacion, setPuntuacion] = useState(0);
+
+    function handleChangeTitle(event) {
+      setTitle( event.target.value );
+    }
+    function handleChangePuntuacion(event) {
+        setPuntuacion( event.target.value );
+      }
+
+    function handleSubmit(event) {
+        event.preventDefault();
+        // Usamos el title que tenemos guardado en nuestro estado interno y que fue ingresado en el form
+        // con el handleChange
+        dispatch(getRecetas(title, puntuacion));
+        // Para limpiar el form del dato anterior
+        // setTitle('')
+        
+      }
 
     return (
         <>
-         <h2>Yo soy home</h2>
-         <hr />
-         <h3>RECETAS</h3>
-         <ul>
-             {recetas.map((r) => (
-              <li key={r.idApi}>{r.nombre}</li>
-             ))}
+         <form className="form-container" onSubmit={(e) => handleSubmit(e)}>
+          <div>
+          
+           <label className="label" htmlFor="title">Comida: </label>
+           <input type="text" id="title" autoComplete="off" value={title} onChange={(e) => handleChangeTitle(e)}></input>
+
+            <label className="label" htmlFor="title">Puntuacion minima: </label>
+            <input type="text" id="puntuacion" autoComplete="off" value={puntuacion} onChange={(e) => handleChangePuntuacion(e)}></input>
+            <button type="submit">BUSCAR</button>
+          </div>
+          
+         </form>
+         <Link to={'/form'}>
+             {'Ingresar receta'} 
+         </Link>
+
+           {/* Aqui listo todas las recetas */}
+         <ul style={{list_style_type: "none"}}>
+        
+          {recetas.map((r) => 
+          <div>
+           <li key={r.idApi}>
+            <Link to={`/recipes/${r.idApi}-${r.fuente}`}>
+             {r.nombre} 
+            </Link>
+           </li>
+           <li>{`puntuación: ${r.puntuacion}`}</li>
+           <img src={r.imagen} alt=''/>
+           <li>{r.idApi}</li>
+          </div>
+            )}
          </ul>
+
         </>
 
     )
 }
 export default Home;
+
+/*          <hr />
+         <h3>RECETAS</h3>
+         <ul>
+             {recetas.map((r) => (
+              <li key={r.idApi}>{r.nombre}</li>
+             ))}
+         </ul> */
+
+
+// <button onClick={() => props.addMovieFavourite({title: mov.Title, id: mov.imdbID})}>  Fav</button> 
