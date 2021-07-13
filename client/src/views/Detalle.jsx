@@ -1,5 +1,5 @@
 import React from 'react'
-import { getReceta } from './actions'
+import { getReceta, clearReceta } from './actions'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from "react-router-dom"
@@ -9,23 +9,27 @@ function Detalle(){
     const receta = useSelector((state) => state.receta);
     const dispatch = useDispatch()
     const {idReceta} = useParams()
-    console.log('idReceta: ', idReceta);
+    
     useEffect(() => {
-        dispatch(getReceta(idReceta))
+        dispatch(getReceta(idReceta));
+        return () => dispatch(clearReceta())
     },[idReceta, dispatch]);
 
    return (
        <div>
-            <Link to={'/'}>
+           <Link to={'/'}>
              {'Home'} 
             </Link>
       
            {receta ? (
-           <>
+            <>
              <h2>{receta.nombre}</h2>
-             <span>{receta.tipo_dieta}</span>
+             <span>{`Tipo de dietas: ${receta.tipo_dieta}`}</span>
              <p>{`Puntuacion: ${receta.puntuacion}`}</p>
+             <p>{`Nivel Salud: ${receta.nivel_salud}`}</p>
+             <p>{`Id: ${receta.idApi}`}</p>
              <img src={receta.imagen} alt=''/>
+
              <hr/>
              <div className="receta-detalle">{receta.resumen}</div>   
              <hr/>
@@ -36,7 +40,7 @@ function Detalle(){
            ) : (
                <div>Cargando...</div>
            )}
-       </div>
+        </div>
    ) 
 }
  //           <a href="edit" className="btn btn-primary">EDIT</a>

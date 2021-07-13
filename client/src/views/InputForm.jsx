@@ -1,14 +1,19 @@
 import React, { useState } from 'react';
 import { useDispatch } from "react-redux";
 import { postReceta } from "./actions.js";
+import { Link , useHistory} from 'react-router-dom';
+import axios from "axios";
+import '../components/AppCheck.css'
+import  CheckBox  from '../components/CheckBox'
 
 const initialState = 
 {
   nombre: '',
   resumen: '',
-  puntuacion: 0,
-  nivel: 0,
+  puntuacion: '',
+  nivel: '',
   instrucciones: '',
+  dietas: [],
   errors: {
       nombre: '',
       resumen: '',
@@ -17,35 +22,62 @@ const initialState =
     },
     disabled: true
 };
+
+  // Cargo las dietas
+  var dietasInput = [];
+  let obj = {};
+  axios.get('http://localhost:3001/api/diets/types')
+  .then((response) => {
+    response.data.forEach(item =>
+     {obj = {id: item.id, value: item.nombre, isChecked: false}
+     dietasInput.push(obj)}
+    )
+  });
+  //console.log('dietasInput: ', dietasInput);
+
 function InputForm() {
   const [input, setInput] = useState(initialState);
+  const [dietas, setDietas] = useState(dietasInput);
   const dispatch = useDispatch() ;
- 
+  const { push } = useHistory() ;
+  
   function handleSubmit(e) {
     e.preventDefault();
     if(!input.nombre || !input.resumen) {
         alert('Faltan campos obligatorios')
     }
     else{
+      let dietasId = [];
+      dietas.forEach(item => item.isChecked && dietasId.push(item.id))
+
       let receta = {
         nombre: input.nombre,
         resumen: input.resumen,
         puntuacion: input.puntuacion,
         nivel: input.nivel,
-        instrucciones: input.instrucciones
+        instrucciones: input.instrucciones,
+        dietas : dietasId
+        
       }
-      alert('Form ok para postear');
-      dispatch(postReceta(receta))
-      setInput(initialState);
+     // alert('Form ok para postear');
+     //dispatch(postReceta(receta))
+     axios.post('http://localhost:3001/api/recipes',receta)
+      .then((response) => {
+       push(`/recipes/${response.data.id}`)
+      });
+     
+     setInput(initialState);
+     // Por alguna razon dietasInput hay que inicializarlo pues queda cargado con los checks
+     dietasInput.forEach(item => item.isChecked = false)
+     setDietas(dietasInput);
+     //console.log('dietasinput: ',dietasInput) ;
     }
   }
 
   function handleChange(e) {
     const { value, name } = e.target;
-    //console.log('value: ',value, ' name: ', name)
-    //console.log('input: ',input)
     let errors = input.errors;
-    // console.log('errors: ',errors);
+
     switch (name) {
       case 'nombre': 
         errors.nombre = (value.length === 0 || value == null || /^\s+$/.test(value)) ? 'Campo mandatorio !' : '';
@@ -75,6 +107,25 @@ function InputForm() {
     });
 
  }
+
+ function handleAllChecked(event) {
+  let dietasv = dietas
+  dietasv.forEach(dieta => dieta.isChecked = event.target.checked) 
+  setDietas(dietasv)
+  console.log(dietas);
+}
+
+function handleCheckChieldElement(event) {
+  let dietasv = dietas
+  dietasv.forEach(dieta => {
+     if (dieta.value === event.target.value)
+        dieta.isChecked =  event.target.checked
+  })
+  setDietas(dietasv)
+  //console.log(dietas);
+}
+
+//console.log('Dietas: ', dietas);
 
   return (
     <form onSubmit={handleSubmit}>  
@@ -115,14 +166,32 @@ function InputForm() {
         {input.errors.nivel.length === 0 ? null : <div>{input.errors.nivel}</div>}
         
       <label>Paso a paso:</label>    
-      <input
+      <textarea
         name="instrucciones"
         type="text"
         value={input.instrucciones}
         onChange={handleChange}
-        placeholder="Opcional: pasos de la elaboracion del plato..." /><br/>
+        placeholder="Opcional: pasos de la elaboracion del plato..." />
+
+      <div className="AppCheck">
+       <p> Seleccione las dietas </p>
+       <input type="checkbox" onChange={handleAllChecked}  value="checkedall" /> Check / Uncheck All
+        <ul>
+        {
+          dietas.map((dieta, index) => {
+            return (<CheckBox key={index} handleCheckChieldElement={handleCheckChieldElement} checked={dieta.isChecked} value={dieta.value} />)
+          })
+        }
+        </ul>
+      </div>
+      <br/>
       
       <input disabled={input.disabled} type="submit" value="Submit" />
+      <br/>
+      <Link to={'/'}>
+             {'Home'} 
+      </Link>
+
     </form>
   )
 }
