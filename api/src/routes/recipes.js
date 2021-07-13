@@ -14,7 +14,6 @@ const spoonacularURL = 'https://api.spoonacular.com/recipes/';
 // Con parametro (query name): lista recetas de la API y propias que coincidan con le parametro.
 router.get('/', async function(req, res, next) {
     const { name } = req.query ;
-    //console.log('name: ',name);
     if (name) {
       try {
         let response = [];
@@ -22,7 +21,6 @@ router.get('/', async function(req, res, next) {
         const { number, results} = resAxios.data ;
          
          if (results.length > 0) {
-          // let response = [];
           let obj = {};
           for (let i = 0; i< results.length ; i++ ) {
             //const resAxios = await axios.get(spoonacularURL + results[i].id + '/information?includeNutrition=false'+ '&apiKey=' + API_KEY );  
@@ -35,10 +33,11 @@ router.get('/', async function(req, res, next) {
         const recPropias = await Recipe.findAll({where: {nombre: {[Op.substring]: name}}, include: Diet});  
         // console.log('Recetas propias filtarads: ' ,recPropias);
         recPropias.forEach(e => {
-        let objprop = {nombre: e.nombre, imagen: "", idApi: e.id, fuente: 'Propia', puntuacion: e.puntuacion, dietas: e.diets.map(d => d.nombre  )}
+        let objprop = {nombre: e.nombre, imagen: "", idApi: e.id, fuente: 'Propia', puntuacion: e.puntuacion, dietas: e.diets.map(d => d.id  )}
+        // console.log('objprop: ', objprop);
         response.push(objprop);
         })
-        
+        // console.log('response: ', response);
         response.length > 0 ?  res.json(response)    : res.send('No vino nada');
         
       }
@@ -47,9 +46,15 @@ router.get('/', async function(req, res, next) {
     else 
     {
      // Si no viene parametro de serach le mando todas las recetas propias 
-     const recetas = await Recipe.findAll({include: Diet});
-     //console.log('Recetas: ', recetas);
-     return res.json(recetas);
+     const recPropias = await Recipe.findAll({include: Diet});
+     
+     console.log('RecPropias: ', recPropias);
+     const response = [];
+     recPropias.forEach(e => {
+      let objprop = {nombre: e.nombre, imagen: "", idApi: e.id, fuente: 'Propia', puntuacion: e.puntuacion, dietas: e.diets.map(d => d.nombre  ) }
+      response.push(objprop);
+      })
+     return res.json(response);
     }
 })
 
@@ -67,8 +72,8 @@ router.get('/:idReceta', async function(req, res, next) {
         idApi: id,
         nombre: title,
         imagen: image,
-        tipo_dieta : diets.join(', '),
-        tipo_plato: dishTypes.join(', '),
+        tipo_dieta : diets,
+        tipo_plato: dishTypes,
         resumen: summary,
         puntuacion: spoonacularScore,
         nivel_salud: healthScore,
@@ -78,17 +83,21 @@ router.get('/:idReceta', async function(req, res, next) {
       }
       else {
         const receta =  await Recipe.findByPk(idReceta, {include: Diet})
-        let obj = {
-        id: receta.id, 
-        nonbre: receta.nombre,
-        imagen: '',
-        tipo_dieta: receta.diets.join(),
-        resumen: receta.resumen,
-        puntuacion: receta.puntuacion,
-        nivel_salud: receta.nivel,
-        paso_a_paso: receta.instrucciones
+        console.log('receta id: ', receta);
+        if (receta) {
+         let obj = {
+         idApi: receta.id, 
+         nombre: receta.nombre,
+         imagen: '',
+         tipo_dieta: receta.diets.map(d => d.nombre), 
+         resumen: receta.resumen,
+         puntuacion: receta.puntuacion,
+         nivel_salud: receta.nivel,
+         paso_a_paso: receta.instrucciones
+         }
+         res.json(obj)
         }
-        res.json(obj)
+        else { res.status(400)}
       } 
     }
     catch (error) {next(error)};

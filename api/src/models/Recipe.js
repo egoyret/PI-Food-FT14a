@@ -19,9 +19,11 @@ module.exports = (sequelize) => {
     },
     puntuacion: {
       type: DataTypes.INTEGER,
+      set(value) { this.setDataValue('puntuacion', !value ? 0 : value)}
     },
     nivel: {
       type: DataTypes.INTEGER,
+      set(value) { this.setDataValue('nivel', !value ? 0 : value)}
     },
     instrucciones: {
       type: DataTypes.TEXT,
