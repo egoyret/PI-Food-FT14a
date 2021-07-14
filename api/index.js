@@ -33,7 +33,7 @@ conn.sync({ force: update }).then(() => {
     console.log('%s listening at 3001'); // eslint-disable-line no-console
     if (update)
     {
-      const dietas = ["Gluten Free","Ketogenic", "Vegetarian", "Lacto-Vegetarina", "Ovo-Vegetarian","Vegan","Pescetarian","Paleo","Primal","Whole30"];
+      const dietas = ["Gluten Free","Ketogenic", "Vegetarian", "Lacto-Vegetarina", "Ovo-Vegetarian","Vegan","Pescatarian","Paleo","Primal","Whole30", "dairy free"];
       dietas.forEach(async (element) => await Diet.create({nombre: element}));
       console.log('Tipos de dieta pre-cargadas')
     }

@@ -18,7 +18,7 @@ router.get('/', async function(req, res, next) {
       try {
         let response = [];
         const resAxios = await axios.get(spoonacularURL + 'complexSearch?query=' + name + '&number=100' + '&addRecipeInformation=true' + '&apiKey=' + API_KEY );
-        const { number, totalResults, results} = resAxios.data ;
+        const { number, results} = resAxios.data ;
          
          if (results.length > 0) {
           let obj = {};
