@@ -3,38 +3,44 @@ import axios from "axios";
 export const SET_RECETAS = "SET_RECETAS";
 export const SET_RECETA = "SET_RECETA";
 export const CARGA_RECETA = "CARGA_RECETA";
-export const ORDER_RECETAS = "ORDER_RECETAS";
 export const FILTER_PUNTUACION = "FILTER_PUNTUACION";
 export const RESET_FILTER = "RESET_FILTER";
+export const GET_DIETAS = "GET_DIETAS";
+export const ORDER_RECETAS_NOMBRE = "ORDER_RECETAS_NOMBRE";
+export const ORDER_RECETAS_PUNTUACION = "ORDER_RECETAS_PUNTUACION";
+export const FILTER_DIETAS = "FILTER_DIETAS";
 
 
 // Aca se comunica con nuestro backend que esta operando en 3001
-export function getRecetas(search, puntuacion, orden, sentido) {
-      if(puntuacion === null || puntuacion === '') {puntuacion = 0};
+export function getRecetas(search) {
       return(dispatch) => {
       axios.get(`http://localhost:3001/api/recipes?name=${search}`)
      .then((response) => {
-       let campo;
-       orden === 'P' ? campo = 'puntuacion' :  campo = 'nombre' ;
-       let respuesta = response.data ;
-       let recetas = respuesta.filter(r => r.puntuacion >= parseInt(puntuacion));
-       recetas.sort(function(a, b) {
-        if (a[campo] > b[campo]) { return 1;}
-        if (a[campo] < b[campo]) { return -1;}
-        return 0;
-        })
-
-      dispatch({type: SET_RECETAS, payload: recetas});
+       let recetas = response.data ;
+       dispatch({type: SET_RECETAS, payload: recetas});
      });
     }
 };
 
-export function orderRecetas() {
-  return {type: ORDER_RECETAS};
+
+export function orderRecetasNombre(order) {
+  return {type: ORDER_RECETAS_NOMBRE, payload: order};
+}
+
+export function orderRecetasPuntuacion(order) {
+  return {type: ORDER_RECETAS_PUNTUACION, payload: order};
 }
 
 export function filterPuntuacion(valor) {
-  return {type: FILTER_PUNTUACION, payload: valor};
+ return {type: FILTER_PUNTUACION, payload: valor};
+}
+
+export function filterDietas(dietas) {
+  console.log('actions filter dietas: ', dietas)
+  let arrDietas = [];
+  dietas.forEach(item => {if(item.isChecked) arrDietas.push(item.value)})
+  console.log('actions arrDietas: ', arrDietas)
+  return {type: FILTER_DIETAS, payload: arrDietas};
 }
 
 export function resetFilter() {
@@ -46,6 +52,15 @@ export function getReceta(idReceta) {
     axios.get(`http://localhost:3001/api/recipes/${idReceta}`)
    .then((response) => {
     dispatch({type: SET_RECETA, payload: response.data});
+   });
+  }
+}
+
+export function getDietas() {
+  return(dispatch) => {
+    axios.get('http://localhost:3001/api/diets/types')
+   .then((response) => {
+    dispatch({type: GET_DIETAS, payload: response.data});
    });
   }
 }

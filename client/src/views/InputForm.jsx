@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import { useDispatch } from "react-redux";
-import { postReceta } from "./actions.js";
 import { Link , useHistory} from 'react-router-dom';
 import axios from "axios";
 import '../components/AppCheck.css'
@@ -38,7 +36,6 @@ const initialState =
 function InputForm() {
   const [input, setInput] = useState(initialState);
   const [dietas, setDietas] = useState(dietasInput);
-  const dispatch = useDispatch() ;
   const { push } = useHistory() ;
   
   function handleSubmit(e) {
@@ -112,8 +109,7 @@ function InputForm() {
   let dietasv = dietas
   dietasv.forEach(dieta => dieta.isChecked = event.target.checked) 
   setDietas(dietasv)
-  console.log(dietas);
-}
+ }
 
 function handleCheckChieldElement(event) {
   let dietasv = dietas
@@ -122,51 +118,62 @@ function handleCheckChieldElement(event) {
         dieta.isChecked =  event.target.checked
   })
   setDietas(dietasv)
-  //console.log(dietas);
+  
 }
 
-//console.log('Dietas: ', dietas);
 
   return (
-    <form onSubmit={handleSubmit}>  
-      <label>Titulo:</label> 
+
+
+    <form onSubmit={handleSubmit}> 
+    <br/> 
+    <Link to={'/'} className="btn-ing">
+      {'Home'} 
+    </Link>
+      <br/><br/>
+      <label className="label-receta">Titulo:</label> 
       <input
         name="nombre"
         type="text"
+        className="input-receta"
         value={input.nombre}
         onChange={handleChange}
         placeholder="Titulo de la receta" /><br/>
         {input.errors.nombre.length === 0 ? null : <div>{input.errors.nombre}</div>}
         
-      <label>Resumen:</label>  
+      <label className="label-receta">Resumen:</label>  
       <input
         name="resumen"
         type="text"
+        className="input-receta"
         value={input.resumen}
         onChange={handleChange}
         placeholder="Un breve resumen del plato..." /><br/>
         {input.errors.resumen.length === 0 ? null : <div>{input.errors.resumen}</div>}
         
-      <label>Puntuación:</label>  
+      <label className="label-receta">Puntuación:</label>  
       <input
         name="puntuacion"
         type="text"
+        className="input-receta"
         value={input.puntuacion}
         onChange={handleChange}
         placeholder="Opcional,  de 0 a 100" /><br/>
         {input.errors.puntuacion.length === 0 ? null : <div>{input.errors.puntuacion}</div>}
         
-      <label>Nivel salud:</label>  
+      <label className="label-receta">Nivel salud:</label>  
       <input
         name="nivel"
         type="text"
+        className="input-receta"
         value={input.nivel}
         onChange={handleChange}
         placeholder="Opcional, valor de 0 a 100" /><br/>
         {input.errors.nivel.length === 0 ? null : <div>{input.errors.nivel}</div>}
         
-      <label>Paso a paso:</label>    
+      <label className="label-receta">Paso a paso:</label> <br/>   
       <textarea
+        className="textarea"
         name="instrucciones"
         type="text"
         value={input.instrucciones}
@@ -186,12 +193,9 @@ function handleCheckChieldElement(event) {
       </div>
       <br/>
       
-      <input disabled={input.disabled} type="submit" value="Submit" />
+      <input className="btn" disabled={input.disabled} type="submit" value="Submit" />
       <br/>
-      <Link to={'/'}>
-             {'Home'} 
-      </Link>
-
+ 
     </form>
   )
 }

@@ -17,9 +17,11 @@ function Detalle(){
 
    return (
        <div>
-           <Link to={'/'}>
+           <br/>
+           <Link to={'/'} className="btn">
              {'Home'} 
             </Link>
+            <br/>
       
            {receta ? (
             <>
@@ -28,7 +30,7 @@ function Detalle(){
              <p>{`Puntuacion: ${receta.puntuacion}`}</p>
              <p>{`Nivel Salud: ${receta.nivel_salud}`}</p>
              <p>{`Id: ${receta.idApi}`}</p>
-             <img src={receta.imagen} alt=''/>
+             <img src={receta.imagen} width="350" alt=''/>
 
              <hr/>
              <div className="receta-detalle">{receta.resumen}</div>   
