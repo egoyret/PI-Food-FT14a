@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import axios from "axios";
 import { getRecetas } from "./actions.js";
-import Lista from "../components/Lista";
+// import Lista from "../components/Lista";
 import '../components/AppCheck.css'
 import { orderRecetasNombre, orderRecetasPuntuacion, filterPuntuacion, filterDietas, resetFilter } from "../views/actions.js";
 import  CheckBox  from '../components/CheckBox'
@@ -27,6 +27,8 @@ function Home() {
     const [title, setTitle] = useState('');
     const [dietas, setDietas] = useState(dietasInput);
 
+    let history = useHistory();
+
     function handleChangeTitle(event) {
       setTitle( event.target.value );
     }
@@ -35,9 +37,9 @@ function Home() {
       setPuntuacion( event.target.value );
       }
     
-    function ordenamiento_handleChange(event) {
+    const ordenamiento_handleChange = (event) => {
         setOrdenamiento(event.target.value);
-        aplicar();
+  
       }  
     
     function aplicar(){
@@ -48,11 +50,12 @@ function Home() {
            break
           case 'puntuacion-a': dispatch(orderRecetasPuntuacion('A'))
             break
-          case 'puntuacion-b': dispatch(orderRecetasPuntuacion('D'))
+          case 'puntuacion-d': dispatch(orderRecetasPuntuacion('D'))
             break  
     
           default: console.log('no se selecciona nada');
         }
+        history.push('/lista')
       }
     
  
@@ -62,13 +65,15 @@ function Home() {
         // con el handleChange
         dispatch(getRecetas(title));
         setTitle('');
-               
+        history.push('/lista')
+              
       }
 
       function handleAllChecked(event) {
         let dietasv = dietas
         dietasv.forEach(dieta => dieta.isChecked = event.target.checked) 
-        setDietas(dietasv)
+        setDietas(dietasv => dietasv)
+        console.log('All: ',dietas)
        }
       
       function handleCheckChieldElement(event) {
@@ -77,11 +82,29 @@ function Home() {
            if (dieta.value === event.target.value)
               dieta.isChecked =  event.target.checked
         })
-        setDietas(dietasv)
+        setDietas(dietasv => dietasv)
+        console.log('child: ',dietas)
       }  
 
+      function filtrarPuntuacion ()  {
+        dispatch(filterPuntuacion(puntuacion))
+        history.push('/lista')
+      }
+
+      function resetearFiltros () {
+        dispatch(resetFilter())
+        history.push('/lista')
+      }
+
+      function filtrarDietas () {
+        dispatch(filterDietas(dietas))
+        history.push('/lista')
+      }
+
+     
     return (
         <>
+         <h1>Henry Foods Home Page</h1>
          <div>
            <br/> 
           <Link to={'/form'} className="btn">
@@ -111,9 +134,9 @@ function Home() {
          </div> 
 
          <div className="filtros">
-          <button onClick={() => dispatch(filterPuntuacion(puntuacion))}>Filtrar puntuacion mínima:</button>
+          <button onClick={filtrarPuntuacion}>Filtrar puntuacion mínima:</button>
           <input type="text" id="puntuacion" autoComplete="off" value={puntuacion} onChange={(e) => handleChangePuntuacion(e)}></input>
-          <button onClick={() => dispatch(resetFilter())}>Reset filtros</button><br/>
+          <button onClick={resetearFiltros}>Reset filtros</button><br/>
          </div>  
 
 
@@ -121,7 +144,7 @@ function Home() {
           <p> Seleccione las dietas </p>
           
           <input type="checkbox" onChange={handleAllChecked}  value="checkedall" /> Check / Uncheck All
-          <button onClick={() => dispatch(filterDietas(dietas))}>Filtrar</button>
+          <button onClick={filtrarDietas}>Filtrar</button>
           <ul>
            {
             dietas.map((dieta, index) => {
@@ -134,9 +157,13 @@ function Home() {
 
          {/* Aqui listo todas las recetas */}
 
-         <Lista/> 
-       
-
+        {/*  <Lista/>  */}
+         <Link to={'/lista'} className="btn">
+              {'Listado'} 
+          </Link>  
+        <br/><br/><br/>
+        <button onClick={()=> history.push('/check')}>Test clase</button>
+        <button onClick={()=> history.push('/checkFunc')}>Test funcional</button>
          </>
 
     )
@@ -146,4 +173,6 @@ export default Home;
 // <label className="label" htmlFor="puntuacion">Puntuacion minima: </label>
 // <input type="text" id="puntuacion" autoComplete="off" value={puntuacion} onChange={(e) => handleChangePuntuacion(e)}></input>
 
+// <button onClick={() => dispatch(filterPuntuacion(puntuacion))}>Filtrar puntuacion mínima:</button>
 
+//  <button onClick={() => filterPuntuacionArrow}>Filtrar puntuacion mínima:</button>

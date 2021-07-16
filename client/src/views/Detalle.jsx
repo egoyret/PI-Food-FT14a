@@ -17,12 +17,17 @@ function Detalle(){
 
    return (
        <div>
-           <br/>
-           <Link to={'/'} className="btn">
-             {'Home'} 
-            </Link>
-            <br/>
-      
+           <div className={"botones-detalle"}>
+             <br/>
+             <Link to={'/home'} className="btn">
+               {'Home'} 
+              </Link>
+              <Link to={'/lista'} className="btn">
+              {'Volver al listado'} 
+             </Link>  
+           
+          </div>
+             <br/>
            {receta ? (
             <>
              <h2>{receta.nombre}</h2>

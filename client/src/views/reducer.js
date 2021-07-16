@@ -5,7 +5,7 @@ originales: [],
 receta: {}
 };
 export default function reducer(state = initialState, action) {
-  console.log('reducerrecetas: ',state.recetas);
+  
     switch(action.type) {
         case SET_RECETAS: return {...state, recetas: action.payload, originales: action.payload }
 
@@ -27,11 +27,11 @@ export default function reducer(state = initialState, action) {
     
 
         case FILTER_PUNTUACION:
-            console.log('puntuacion aqui estoy');
+            
             return {...state, recetas: state.recetas.filter(item => item.puntuacion >= parseInt(action.payload) )};
          
         case FILTER_DIETAS:
-              console.log('dietas aqui estoy', action.payload);
+              
               return {...state, recetas: state.recetas.filter(item => 
               { 
                if(item.dietas.length>0) {

@@ -123,15 +123,15 @@ function handleCheckChieldElement(event) {
 
 
   return (
-
-
-    <form onSubmit={handleSubmit}> 
-    <br/> 
-    <Link to={'/'} className="btn-ing">
+<>
+    
+    <Link to={'/home'} className="btn-ing">
       {'Home'} 
     </Link>
-      <br/><br/>
-      <label className="label-receta">Titulo:</label> 
+
+    <form onSubmit={handleSubmit}> 
+     <fieldset><legend>Ingreso de receta propia</legend>
+      <label className="label-receta" for="nombre">Titulo:</label> 
       <input
         name="nombre"
         type="text"
@@ -141,7 +141,7 @@ function handleCheckChieldElement(event) {
         placeholder="Titulo de la receta" /><br/>
         {input.errors.nombre.length === 0 ? null : <div>{input.errors.nombre}</div>}
         
-      <label className="label-receta">Resumen:</label>  
+      <label className="label-receta" for="resumen">Resumen:</label>  
       <input
         name="resumen"
         type="text"
@@ -151,7 +151,7 @@ function handleCheckChieldElement(event) {
         placeholder="Un breve resumen del plato..." /><br/>
         {input.errors.resumen.length === 0 ? null : <div>{input.errors.resumen}</div>}
         
-      <label className="label-receta">Puntuación:</label>  
+      <label className="label-receta" for="puntuacion">Puntuación:</label>  
       <input
         name="puntuacion"
         type="text"
@@ -161,7 +161,7 @@ function handleCheckChieldElement(event) {
         placeholder="Opcional,  de 0 a 100" /><br/>
         {input.errors.puntuacion.length === 0 ? null : <div>{input.errors.puntuacion}</div>}
         
-      <label className="label-receta">Nivel salud:</label>  
+      <label className="label-receta" for="nivel">Nivel salud:</label>  
       <input
         name="nivel"
         type="text"
@@ -171,7 +171,7 @@ function handleCheckChieldElement(event) {
         placeholder="Opcional, valor de 0 a 100" /><br/>
         {input.errors.nivel.length === 0 ? null : <div>{input.errors.nivel}</div>}
         
-      <label className="label-receta">Paso a paso:</label> <br/>   
+      <label className="label-receta" for="instrucciones">Paso a paso:</label> <br/>   
       <textarea
         className="textarea"
         name="instrucciones"
@@ -191,12 +191,13 @@ function handleCheckChieldElement(event) {
         }
         </ul>
       </div>
-      <br/>
       
-      <input className="btn" disabled={input.disabled} type="submit" value="Submit" />
+      
+      <input className="btn-submit" disabled={input.disabled} type="submit" value="Submit" />
       <br/>
- 
+ </fieldset>
     </form>
+   </> 
   )
 }
 

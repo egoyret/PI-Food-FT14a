@@ -39,6 +39,7 @@ function AppCheck(){
     return (
       <div className="AppCheck">
       <h1> Check and Uncheck All Example </h1>
+      <p><b>Componente Funcional</b></p>
       <input type="checkbox" onChange={handleAllChecked}  value="checkedall" /> Check / Uncheck All
         <ul>
         {

@@ -33,7 +33,7 @@ const renderPageNumbers = pages.map(number=>{
   return (
     <li key={number} id={number} 
        onClick={handleClick}
-       className={pageNumber == number ? "active" : null}>
+       className={pageNumber === number ? "active" : null}>
        {number}
     </li>
   );
@@ -52,7 +52,7 @@ const handleNextbtn = () => {
 }
 const handlePrevbtn = () => {
   setPageNumber(pageNumber -1)  
-  if((pageNumber-1) % pageNumberLimit == 0 ) {
+  if((pageNumber-1) % pageNumberLimit === 0 ) {
     setmaxPageNumberLimit(maxPageNumberLimit - pageNumberLimit);
     setminPageNumberLimit(minPageNumberLimit - pageNumberLimit)
    }
@@ -75,29 +75,46 @@ let pageDecrementBtn = null;
 
 return (
     
-  <>     
+  <>    
+       
+            <Link to={'/home'} className="btn">
+             {'Home'} 
+            </Link>
+        <div className={"caja-headers"}>     
+             <h2>Listado de Recetas</h2>
+            <h2>Total de recetas: {list.length}</h2>
+       </div>   
+          
        {list ? (
     <> 
- 
+
+       
        <ul style={{listStyleType: "none"}}>
         {currentItems.map((r) => 
-            <li key={r.idApi}>
-              <Link to={`/recipes/${r.idApi}-${r.fuente}`}>
-                {r.nombre} 
-              </Link>
-              <span>{`   puntuación: ${r.puntuacion}`}</span>
-              <p>{`Dietas: ${r.dietas}`}</p>
-              <p>{`Fuente: ${r.fuente}`}</p>
-              <p>{`Id: ${r.idApi}`}</p>
-              <img src={r.imagen} width="350" alt=''/>
+        <div>
+            <li key={r.idApi} className={"caja"}>
+              
+               <div className={"caja-datos"}>
+                 <img src={r.imagen} width="350" alt='' className={"caja-imagen"}/>
+                 <div className={"caja-datosTexto"}>
+                   <Link to={`/recipes/${r.idApi}-${r.fuente}`} className={"caja-nombre"}>
+                    {r.nombre} 
+                   </Link>
+                   <p>{`Puntuación: ${r.puntuacion}`}</p>
+                   <p>{`Dietas: ${r.dietas}`}</p>
+                   <p>{`Fuente: ${r.fuente}`}</p>
+                   <p>{`Id: ${r.idApi}`}</p>
+                 </div>
+               </div>
            </li>
+         </div>  
           )}
         </ul>
         <br/>
       <ul className="pageNumbers">
         <li>
             <button onClick={handlePrevbtn}
-            disabled={pageNumber == pages[0] ? true : false}
+            disabled={pageNumber === pages[0] ? true : false}
             >
               Prev
             </button>
@@ -107,15 +124,15 @@ return (
         {pageIncrementBtn}
         <li>
             <button onClick={handleNextbtn}
-            disabled={pageNumber == pages[pages.length - 1] ? true : false}
+            disabled={pageNumber === pages[pages.length - 1] ? true : false}
             >
               Next
             </button>
         </li>
       </ul>
-      <button onClick={handleLoadMore} className="loadmore">
+{/*       <button onClick={handleLoadMore} className="loadmore">
         Load more
-      </button>
+      </button> */}
     </>
        ) : (
         <div>Cargando...</div>

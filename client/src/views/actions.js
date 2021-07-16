@@ -36,10 +36,8 @@ export function filterPuntuacion(valor) {
 }
 
 export function filterDietas(dietas) {
-  console.log('actions filter dietas: ', dietas)
   let arrDietas = [];
   dietas.forEach(item => {if(item.isChecked) arrDietas.push(item.value)})
-  console.log('actions arrDietas: ', arrDietas)
   return {type: FILTER_DIETAS, payload: arrDietas};
 }
 

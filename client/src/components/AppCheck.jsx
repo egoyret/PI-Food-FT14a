@@ -47,6 +47,7 @@ class App extends Component {
     return (
       <div className="AppCheck">
       <h1> Check and Uncheck All Example </h1>
+      <p><b>Componente de Clase</b></p>
       <input type="checkbox" onChange={this.handleAllChecked}  value="checkedall" /> Check / Uncheck All
         <ul>
         {
