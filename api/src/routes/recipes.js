@@ -38,7 +38,8 @@ router.get('/', async function(req, res, next) {
         response.push(objprop);
         })
         
-        response.length > 0 ?  res.json(response)    : res.send('No vino nada');
+        res.json(response);
+        //response.length > 0 ?  res.json(response)    : res.send('No vino nada');
         
       }
       catch (error) {next(error)};
@@ -54,7 +55,7 @@ router.get('/', async function(req, res, next) {
       let objprop = {nombre: e.nombre, imagen: e.imagen, idApi: e.id, fuente: 'Propia', puntuacion: e.puntuacion, dietas: e.diets.map(d => d.nombre  ) }
       response.push(objprop);
       })
-     return res.json(response);
+     return res.status(200).json(response);
     }
 })
 
@@ -106,6 +107,7 @@ router.get('/:idReceta', async function(req, res, next) {
 // Carga recetas propias en la base de datos
 router.post('/', async function(req, res, next){
  const {nombre, resumen, puntuacion, nivel, image, instrucciones, dietas} = req.body ;
+ if (!nombre || !resumen) return res.status(400).send('Nombre y Resumen no pueden ser nulos');
  try {
  const recipe = await Recipe.create({
     nombre: nombre,
