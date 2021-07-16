@@ -7,8 +7,8 @@ function Lista() {
 
 const list = useSelector(state => state.recetas)
 const [pageNumber, setPageNumber] = useState(1);
-const [pageNumberLimit, setPageNumberLimit] = useState(5);
-const [maxPageNumberLimit, setmaxPageNumberLimit] = useState(5);
+const [pageNumberLimit, setPageNumberLimit] = useState(10);
+const [maxPageNumberLimit, setmaxPageNumberLimit] = useState(10);
 const [minPageNumberLimit, setminPageNumberLimit] = useState(0);
 const [recetasPerPage, setRecetasPerPage] = useState(5);
 // const recetasPerPage = 5 ;
@@ -31,7 +31,7 @@ const handleClick = (event) =>{
 const renderPageNumbers = pages.map(number=>{
  if(number < maxPageNumberLimit+1 && number>minPageNumberLimit) {
   return (
-    <li key={number} id={number} 
+    <li key={number}  id={number} 
        onClick={handleClick}
        className={pageNumber === number ? "active" : null}>
        {number}
@@ -58,6 +58,16 @@ const handlePrevbtn = () => {
    }
   }
 
+  const botonDeHome = () => {
+    return (
+      <div>
+       <Link to={'/home'} className="btn">
+         {'Home'} 
+       </Link>
+      </div>
+    )
+  }
+
  let pageIncrementBtn = null;
  if(pages.length > maxPageNumberLimit) {
    pageIncrementBtn = <li onClick={handleNextbtn}> &hellip; </li>
@@ -69,32 +79,29 @@ let pageDecrementBtn = null;
    pageDecrementBtn = <li onClick={handlePrevbtn}> &hellip; </li>
  }  
 
- const handleLoadMore = () => {
-   setRecetasPerPage(recetasPerPage + 5);
- }
-
-return (
+// const handleLoadMore = () => {
+//   setRecetasPerPage(recetasPerPage + 5);
+// }
+if (list.length > 0) {
+ return (
     
   <>    
-       
-            <Link to={'/home'} className="btn">
-             {'Home'} 
-            </Link>
-        <div className={"caja-headers"}>     
-             <h2>Listado de Recetas</h2>
-            <h2>Total de recetas: {list.length}</h2>
-       </div>   
-          
-       {list ? (
-    <> 
+    <Link to={'/home'} className="btn">
+       {'Home'} 
+    </Link>
 
-       
+    <div className={"caja-headers"}>     
+         <h2>Listado de Recetas</h2>
+         <h2>Total de recetas: {list.length}</h2>
+    </div>   
+          
+    {list ? (
+     <> 
        <ul style={{listStyleType: "none"}}>
         {currentItems.map((r) => 
         <div>
             <li key={r.idApi} className={"caja"}>
-              
-               <div className={"caja-datos"}>
+              <div className={"caja-datos"}>
                  <img src={r.imagen} width="350" alt='' className={"caja-imagen"}/>
                  <div className={"caja-datosTexto"}>
                    <Link to={`/recipes/${r.idApi}-${r.fuente}`} className={"caja-nombre"}>
@@ -105,32 +112,32 @@ return (
                    <p>{`Fuente: ${r.fuente}`}</p>
                    <p>{`Id: ${r.idApi}`}</p>
                  </div>
-               </div>
-           </li>
-         </div>  
+              </div>
+            </li>
+        </div>  
           )}
         </ul>
         <br/>
-      <ul className="pageNumbers">
-        <li>
+        <ul className="pageNumbers">
+          <li>
             <button onClick={handlePrevbtn}
             disabled={pageNumber === pages[0] ? true : false}
             >
               Prev
             </button>
-        </li>
-        {pageDecrementBtn}
-        {renderPageNumbers}
-        {pageIncrementBtn}
-        <li>
+          </li>
+          {pageDecrementBtn}
+          {renderPageNumbers}
+          {pageIncrementBtn}
+          <li>
             <button onClick={handleNextbtn}
             disabled={pageNumber === pages[pages.length - 1] ? true : false}
             >
-              Next
+            Next
             </button>
-        </li>
+          </li>
       </ul>
-{/*       <button onClick={handleLoadMore} className="loadmore">
+      {/*       <button onClick={handleLoadMore} className="loadmore">
         Load more
       </button> */}
     </>
@@ -139,7 +146,17 @@ return (
        )}
  </>
     
-)
+ )
+} else {
+  return (
+   <div> 
+     <h2>No hay datos</h2> 
+     <Link to={'/home'} className="btn">
+      {'Home'} 
+    </Link>
+   </div>
+  )
+}
 }
 
 export default Lista;

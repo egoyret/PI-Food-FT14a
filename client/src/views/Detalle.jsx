@@ -21,27 +21,32 @@ function Detalle(){
              <br/>
              <Link to={'/home'} className="btn">
                {'Home'} 
-              </Link>
-              <Link to={'/lista'} className="btn">
+             </Link>
+             <Link to={'/lista'} className="btn">
               {'Volver al listado'} 
              </Link>  
            
           </div>
-             <br/>
+             
            {receta ? (
             <>
+            <div >
              <h2>{receta.nombre}</h2>
-             <span>{`Tipo de dietas: ${receta.tipo_dieta}`}</span>
-             <p>{`Puntuacion: ${receta.puntuacion}`}</p>
-             <p>{`Nivel Salud: ${receta.nivel_salud}`}</p>
-             <p>{`Id: ${receta.idApi}`}</p>
-             <img src={receta.imagen} width="350" alt=''/>
+             <p className="receta-datos">{`Tipo de dietas: ${receta.tipo_dieta}`}</p>
+             <p className="receta-datos">{`Puntuacion: ${receta.puntuacion}`}</p>
+             <p className="receta-datos">{`Nivel Salud: ${receta.nivel_salud}`}</p>
+             <p className="receta-datos">{`Id: ${receta.idApi}`}</p>
+            </div>
 
-             <hr/>
-             <div className="receta-detalle">{receta.resumen}</div>   
+            <div className="caja-detalle">
+              <img src={receta.imagen} width="350" alt=''/>
+              <div>
+               <p  className="receta-detalle" > {receta.resumen}</p>
+              
+              </div>   
+            </div>
              <hr/>
              <div>{`Paso a paso: ${receta.paso_a_paso}`}</div>
- 
  
             </>
            ) : (

@@ -131,7 +131,7 @@ function handleCheckChieldElement(event) {
 
     <form onSubmit={handleSubmit}> 
      <fieldset><legend>Ingreso de receta propia</legend>
-      <label className="label-receta" for="nombre">Titulo:</label> 
+      <label className="label-receta" for="nombre">Titulo (*)</label> 
       <input
         name="nombre"
         type="text"
@@ -141,7 +141,7 @@ function handleCheckChieldElement(event) {
         placeholder="Titulo de la receta" /><br/>
         {input.errors.nombre.length === 0 ? null : <div>{input.errors.nombre}</div>}
         
-      <label className="label-receta" for="resumen">Resumen:</label>  
+      <label className="label-receta" for="resumen">Resumen (*)</label>  
       <input
         name="resumen"
         type="text"
@@ -194,6 +194,7 @@ function handleCheckChieldElement(event) {
       
       
       <input className="btn-submit" disabled={input.disabled} type="submit" value="Submit" />
+      <spam className="mandatorios">(*) Campos mandatorios</spam>
       <br/>
  </fieldset>
     </form>

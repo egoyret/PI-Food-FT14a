@@ -106,17 +106,17 @@ function Home() {
         <>
          <h1>Henry Foods Home Page</h1>
          <div>
-           
+           <br/> 
           <Link to={'/form'} className="btn">
               {'Ingresar receta'} 
           </Link>  
          </div>
-         <br/> 
+         <br/> <br/>
          
          <form className="form-container" onSubmit={(e) => handleSubmit(e)}>
           <div className='barraHome'>
-           <label className="labels-home" htmlFor="title" >Comida: </label>
-           <input type="text" className="cajaTitle" id="title" autoComplete="off" placeholder="Ravioles con tuco..."   value={title} onChange={(e) => handleChangeTitle(e)}></input>
+           <label className="label" htmlFor="title">Comida: </label>
+           <input type="text" className="cajaTitle" id="title" autoComplete="off" value={title} onChange={(e) => handleChangeTitle(e)}></input>
            <button type="submit">BUSCAR</button><br/>
           </div>
          </form>
@@ -134,9 +134,8 @@ function Home() {
          </div> 
 
          <div className="filtros">
-          <label className="labels-home" htmlFor="puntuacion">Puntuacion: </label>
-          <input type="text" id="puntuacion" autoComplete="off" placeholder="0 a 100" value={puntuacion} onChange={(e) => handleChangePuntuacion(e)}></input>
-          <button onClick={filtrarPuntuacion}>Aplicar filtro:</button>
+          <button onClick={filtrarPuntuacion}>Filtrar puntuacion mínima:</button>
+          <input type="text" id="puntuacion" autoComplete="off" value={puntuacion} onChange={(e) => handleChangePuntuacion(e)}></input>
           <button onClick={resetearFiltros}>Reset filtros</button><br/>
          </div>  
 
@@ -159,17 +158,13 @@ function Home() {
          {/* Aqui listo todas las recetas */}
 
         {/*  <Lista/>  */}
-        <div>
          <Link to={'/lista'} className="btn">
               {'Listado'} 
           </Link>  
-        </div>
         <br/><br/><br/>
-        <div>
-          <button onClick={()=> history.push('/check')}>Test clase</button>
-          <button onClick={()=> history.push('/checkFunc')}>Test funcional</button>
-        </div>  
-    </>
+        <button onClick={()=> history.push('/check')}>Test clase</button>
+        <button onClick={()=> history.push('/checkFunc')}>Test funcional</button>
+         </>
 
     )
 }

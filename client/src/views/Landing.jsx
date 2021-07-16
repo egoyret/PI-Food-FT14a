@@ -5,10 +5,15 @@ function Landing() {
     return (
     <>
      <div className={"landing-top"}>
-          <h1>Henry Food</h1> 
-           <Link to={'/home'} className="btn">
-               {'Ingresar'} 
-       </Link>      
+          <h1 className={"landing-title"}>Henry Food</h1>
+           <div >
+           <Link to={'/home'}>
+                <button type="button" className={"btn btn-land"} >
+                  {'Bienvenidos !'} 
+                </button>
+           </Link>    
+           
+           </div>
         <div className="landing">
                      
  

@@ -1,15 +1,18 @@
 .AppCheck {
-    margin-left: 10px;
+    margin-left: 5px;
     margin-top: 10px;
     text-align: left;
   }
+ .AppCheck p {
+   margin: 5px;
+ } 
 
   /* Form ingresar receta */
 
   fieldset {
-    margin: 2em 0;
+    margin: 1em 0;
     padding: 1em 2em;
-    border: solid 1px #ccc;
+    border: solid 1px blue;
     border-radius: 6px;
     min-width: 100px;
     max-width: 600px;
@@ -26,7 +29,6 @@
     display:inline-block;
     margin-top: 0.5em;
     width: 90px;
-    
   } 
 
   .label-receta:first-of-type {
@@ -37,7 +39,6 @@
     padding: .3em;
     border: solid 1px #999;
     margin-left: 40px;
-   
   }
 
   .input-receta[name="resumen"] {
@@ -53,9 +54,12 @@
     min-width: 100%;
     padding: .5em;
     border: solid 1px #999;
-
   }
 
+  .mandatorios {
+    margin-left: 20px;
+  }
+  /********************************/
  
   ul {
     list-style: none;
@@ -63,10 +67,6 @@
 
  .barraHome {
    margin-bottom: 20px;
- }
-
- .ordenamiento {
-   margin-bottom: 10px;
  }
 
  .btn-submit {
@@ -83,8 +83,6 @@
   color: #ffffff;
  }
 
-
-
  .btn, .btn-ing {
    padding: .5em 1em;
    border-radius: 28px;
@@ -93,18 +91,18 @@
    font-family: 'Lato', sans-serif;
    font-size: .8em;
    cursor: pointer;
-   margin-top: 50px;
+   margin-top: 20px;
+   text-decoration: none;
  }
 
  .btn-ing {
    margin-top: 100px;
-   
  }
 
- .btn:hover {
+.btn:hover {
   background-color: #3cb0fd;
   color: #ffffff;
- }
+}
 
  .btn-submit:disabled {
   background: #94989b;
@@ -112,8 +110,9 @@
   border-radius: 28px;
   font-family: 'Lato', sans-serif;
   font-size: .8em;
-
  }
+
+ /*  Lista recetas */
 
  .caja {
   display:flex;
@@ -137,9 +136,7 @@
   margin-left: 50px;
   margin-top: 0px;
   height: 20px;
-   
-
-}
+ }
 
 .caja-datos {
   display: flex;
@@ -160,16 +157,165 @@
 
 }
 
+/****************************/
+
+/*  Detalle */
+.caja-detalle {
+  display:flex;
+  border: 3px solid grey;
+  background-color:rgb(214, 220, 226);
+  width: 1300px;
+  height: 250px;
+  margin-top: 20px;
+  margin-right: 20px;
+  padding: 25px;
+  border: 3px solid grey;
+  border-radius: 10px;
+}
+
+.receta-detalle {
+  margin-left: 20px;
+  text-align:left;
+}
+
+.receta-datos  {
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
 .botones-detalle {
   display: flex;
   justify-content: flex-start;
   justify-content: space-between;
   width: 200px;
-  margin-top: 20px;
+  margin-top: 10px;
   
 }
+.cajaTitle {
+    width: 300px;
+}
+
+/*  Home   */
+
+.home-bottom {
+  margin-top: 0px;
+}
+
+.labels-home {
+  display:inline-block;
+  margin-top: 0.5em;
+  width: 105px;
+}
+.label-ordenamiento {
+  display:inline;
+  margin-top: 0.5em;
+  width: 300px;
+}
+.ordenamiento {
+   margin-bottom: 10px;
+   display: inline;
+   width: 200px;
+ }
+
+.landing {
+    margin-top: 10px;
+    height: 550px;
+    background-image:  url("./images/cooking.png")  ;
+    background-color: transparent;
+    background-position: 50% 50%;
+}
+.landing-btnx {
+   margin-left: 300px;
+   width: 150px;
+   font-size: 25px;
+   font-family:Arial, Helvetica, sans-serif;
+}
+
+  .landing-btn {
+    border: 2px solid red;  
+    width: 600px;  
+    height: 75px; 
+    display: grid; 
+   
+  }
+  .landing-btnxxx {
+    border: 2px solid red;  
+    width: 600px;  
+    height: 75px; 
+    display: grid; 
+  }
+
+  .btn-land {
+    font-size: 25px;
+    margin-top:0px;
+    text-align: center;
+  }
+  .landing-title {
+    text-align: center;
+    margin: 10px;
+    font-family:cursive;
+    font-size: 40px;
+  }
+  #btnx{
+    font-size: 25px;
+    }
 
 
+  .landing-topx {
+    display: flex
+  }
+  body {
+    background: #D0E4F5 url("./images/food.png")  scroll 0% 0%;
+  }
+
+  /* PAGINATION */
+
+  .pageNumbers {
+    list-style: nome;
+    display: flex;
+  }
+
+  .pageNumbers li {
+    padding: 10px;
+    border: 1px solid white;
+    background-color: black;
+    cursor: pointer;
+    color: white;
+  }
+
+  .pageNumbers li.active {
+    background-color: white;
+    color: black;
+  }
+
+  .pageNumbers li button {
+    background-color: black;
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+  } 
+
+  .pageNumbers li button:hover {
+      background-color: white;
+      color: black;
+  }
+
+  .pageNumbers li button:focus {
+    outline: none;
+  }
+
+  .loadmore {
+    padding: 1rem;
+    background-color: black;
+    color: white;
+    font-size: 1.2rem;
+    border: 1px solid white;
+    cursor: pointer;
+  
+  }
+
+  /* CODIGO VIEJO */
 /*
   .btn {
     background: #3498db;
@@ -233,67 +379,6 @@
     
   }
 */
-
-  .cajaTitle {
-    width: 300px;
-  }
-
-  .landing {
-    margin-top: 100px;
-    height: 550px;
-    background-image:  url("./images/cooking.png")  ;
-    background-color: transparent;
-    background-position: 50% 50%;
-  }
-  body {
-    background: #D0E4F5 url("./images/food.png")  scroll 0% 0%;
-  }
-
-  /* PAGINATION */
-
-  .pageNumbers {
-    list-style: nome;
-    display: flex;
-  }
-
-  .pageNumbers li {
-    padding: 10px;
-    border: 1px solid white;
-    cursor: pointer;
-  }
-
-  .pageNumbers li.active {
-    background-color: white;
-    color: black;
-  }
-
-  .pageNumbers li button {
-    background-color: black;
-    border: none;
-    color: white;
-    font-size: 1.5rem;
-    cursor: pointer;
-  } 
-
-  .pageNumbers li button:hover {
-      background-color: white;
-      color: black;
-  }
-
-  .pageNumbers li button:focus {
-    outline: none;
-  }
-
-  .loadmore {
-    padding: 1rem;
-    background-color: black;
-    color: white;
-    font-size: 1.2rem;
-    border: 1px solid white;
-    cursor: pointer;
-    
-
-  }
 
 
   
