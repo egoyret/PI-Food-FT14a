@@ -104,15 +104,12 @@ function Home() {
      
     return (
         <>
-         <h1>Henry Foods Home Page</h1>
+         <h1 className="titulo-home">Que tipo de comida desea cocinar hoy ? </h1>
          <div>
            
-          <Link to={'/form'} className="btn">
-              {'Ingresar receta'} 
-          </Link>  
          </div>
          <br/> 
-         
+          
          <form className="form-container" onSubmit={(e) => handleSubmit(e)}>
           <div className='barraHome'>
            <label className="labels-home" htmlFor="title" >Comida: </label>
@@ -181,3 +178,7 @@ export default Home;
 // <button onClick={() => dispatch(filterPuntuacion(puntuacion))}>Filtrar puntuacion mínima:</button>
 
 //  <button onClick={() => filterPuntuacionArrow}>Filtrar puntuacion mínima:</button>
+
+//           <Link to={'/form'} className="btn">
+// {'Ingresar receta'} 
+// </Link>  

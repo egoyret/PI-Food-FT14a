@@ -10,7 +10,7 @@ const [pageNumber, setPageNumber] = useState(1);
 const [pageNumberLimit, setPageNumberLimit] = useState(10);
 const [maxPageNumberLimit, setmaxPageNumberLimit] = useState(10);
 const [minPageNumberLimit, setminPageNumberLimit] = useState(0);
-const [recetasPerPage, setRecetasPerPage] = useState(5);
+const [recetasPerPage, setRecetasPerPage] = useState(9);
 // const recetasPerPage = 5 ;
 const indexOfLastItem = pageNumber * recetasPerPage ;
 const indexOfFirstItem = indexOfLastItem - recetasPerPage;
@@ -57,17 +57,7 @@ const handlePrevbtn = () => {
     setminPageNumberLimit(minPageNumberLimit - pageNumberLimit)
    }
   }
-
-  const botonDeHome = () => {
-    return (
-      <div>
-       <Link to={'/home'} className="btn">
-         {'Home'} 
-       </Link>
-      </div>
-    )
-  }
-
+  
  let pageIncrementBtn = null;
  if(pages.length > maxPageNumberLimit) {
    pageIncrementBtn = <li onClick={handleNextbtn}> &hellip; </li>
@@ -80,16 +70,12 @@ let pageDecrementBtn = null;
  }  
 
 // const handleLoadMore = () => {
-//   setRecetasPerPage(recetasPerPage + 5);
+//   setRecetasPerPage(recetasPerPage + 9);
 // }
 if (list.length > 0) {
  return (
     
   <>    
-    <Link to={'/home'} className="btn">
-       {'Home'} 
-    </Link>
-
     <div className={"caja-headers"}>     
          <h2>Listado de Recetas</h2>
          <h2>Total de recetas: {list.length}</h2>
@@ -160,3 +146,7 @@ if (list.length > 0) {
 }
 
 export default Lista;
+
+//    <Link to={'/home'} className="btn">
+// {'Home'} 
+// </Link>

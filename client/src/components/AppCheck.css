@@ -67,6 +67,7 @@
 
  .barraHome {
    margin-bottom: 20px;
+  
  }
 
  .btn-submit {
@@ -201,6 +202,11 @@
   margin-top: 0px;
 }
 
+.titulo-home {
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+
 .labels-home {
   display:inline-block;
   margin-top: 0.5em;
@@ -314,6 +320,8 @@
     cursor: pointer;
   
   }
+
+
 
   /* CODIGO VIEJO */
 /*

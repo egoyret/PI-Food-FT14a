@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link , useHistory} from 'react-router-dom';
+import {useHistory} from 'react-router-dom';
 import axios from "axios";
 import '../components/AppCheck.css'
 import  CheckBox  from '../components/CheckBox'
@@ -31,12 +31,15 @@ const initialState =
      dietasInput.push(obj)}
     )
   });
+
+
   //console.log('dietasInput: ', dietasInput);
 
 function InputForm() {
   const [input, setInput] = useState(initialState);
   const [dietas, setDietas] = useState(dietasInput);
   const { push } = useHistory() ;
+
   
   function handleSubmit(e) {
     e.preventDefault();
@@ -125,13 +128,9 @@ function handleCheckChieldElement(event) {
   return (
 <>
     
-    <Link to={'/home'} className="btn-ing">
-      {'Home'} 
-    </Link>
-
     <form onSubmit={handleSubmit}> 
      <fieldset><legend>Ingreso de receta propia</legend>
-      <label className="label-receta" for="nombre">Titulo (*)</label> 
+      <label className="label-receta" htmlFor="nombre">Titulo (*)</label> 
       <input
         name="nombre"
         type="text"
@@ -141,7 +140,7 @@ function handleCheckChieldElement(event) {
         placeholder="Titulo de la receta" /><br/>
         {input.errors.nombre.length === 0 ? null : <div>{input.errors.nombre}</div>}
         
-      <label className="label-receta" for="resumen">Resumen (*)</label>  
+      <label className="label-receta" htmlFor="resumen">Resumen (*)</label>  
       <input
         name="resumen"
         type="text"
@@ -151,7 +150,7 @@ function handleCheckChieldElement(event) {
         placeholder="Un breve resumen del plato..." /><br/>
         {input.errors.resumen.length === 0 ? null : <div>{input.errors.resumen}</div>}
         
-      <label className="label-receta" for="puntuacion">Puntuación:</label>  
+      <label className="label-receta" htmlFor="puntuacion">Puntuación:</label>  
       <input
         name="puntuacion"
         type="text"
@@ -161,7 +160,7 @@ function handleCheckChieldElement(event) {
         placeholder="Opcional,  de 0 a 100" /><br/>
         {input.errors.puntuacion.length === 0 ? null : <div>{input.errors.puntuacion}</div>}
         
-      <label className="label-receta" for="nivel">Nivel salud:</label>  
+      <label className="label-receta" htmlFor="nivel">Nivel salud:</label>  
       <input
         name="nivel"
         type="text"
@@ -171,7 +170,7 @@ function handleCheckChieldElement(event) {
         placeholder="Opcional, valor de 0 a 100" /><br/>
         {input.errors.nivel.length === 0 ? null : <div>{input.errors.nivel}</div>}
         
-      <label className="label-receta" for="instrucciones">Paso a paso:</label> <br/>   
+      <label className="label-receta" htmlFor="instrucciones">Paso a paso:</label> <br/>   
       <textarea
         className="textarea"
         name="instrucciones"
@@ -194,7 +193,7 @@ function handleCheckChieldElement(event) {
       
       
       <input className="btn-submit" disabled={input.disabled} type="submit" value="Submit" />
-      <spam className="mandatorios">(*) Campos mandatorios</spam>
+      <span className="mandatorios">(*) Campos mandatorios</span>
       <br/>
  </fieldset>
     </form>
@@ -203,3 +202,7 @@ function handleCheckChieldElement(event) {
 }
 
 export default InputForm;
+
+//   <Link to={'/home'} className="btn-ing">
+// {'Home'} 
+// </Link>
