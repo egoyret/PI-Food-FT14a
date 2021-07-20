@@ -28,6 +28,7 @@ module.exports = (sequelize) => {
     instrucciones: {
       type: DataTypes.TEXT,
     }
+   
 
   });
 };

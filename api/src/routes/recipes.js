@@ -23,7 +23,6 @@ router.get('/', async function(req, res, next) {
          if (results.length > 0) {
           let obj = {};
           for (let i = 0; i< results.length ; i++ ) {
-            //const resAxios = await axios.get(spoonacularURL + results[i].id + '/information?includeNutrition=false'+ '&apiKey=' + API_KEY );  
             obj = {nombre: results[i].title, imagen: results[i].image, idApi: results[i].id, fuente: 'Api', puntuacion: results[i].spoonacularScore,  dietas: results[i].diets }
             response.push(obj);
           }
@@ -78,7 +77,8 @@ router.get('/:idReceta', async function(req, res, next) {
         resumen: summary,
         puntuacion: spoonacularScore,
         nivel_salud: healthScore,
-        paso_a_paso: instructions
+        paso_a_paso: instructions,
+        fuente: "Api"
        }
        res.status(200).json(obj);
       }
@@ -94,7 +94,8 @@ router.get('/:idReceta', async function(req, res, next) {
          resumen: receta.resumen,
          puntuacion: receta.puntuacion,
          nivel_salud: receta.nivel,
-         paso_a_paso: receta.instrucciones
+         paso_a_paso: receta.instrucciones,
+         fuente: "Propia"
          }
          res.json(obj)
         }
@@ -103,6 +104,43 @@ router.get('/:idReceta', async function(req, res, next) {
     }
     catch (error) {next(error)};
 })
+
+// Borrar ua receta del BD segun su id
+router.delete('/:idReceta', async function(req, res, next) {
+  const idRecetaArray = req.params.idReceta.split('-');
+  const idReceta = idRecetaArray[0];
+  const fuente = idRecetaArray[1];
+  try {
+  //const receta =  await Recipe.findByPk(idReceta, {include: Diet})
+  const numRows =  await Recipe.destroy({where: {id: idReceta}})
+  if(numRows > 0)
+  return res.send('Receta eliminada')
+  return res.status(400).send('Error: receta inexistente')
+ 
+ }
+ catch (error) {next(error)};
+});
+
+// Actualizar ua receta del BD con datos que vienen en el body
+router.put('/', async function(req, res, next) {
+  const receta = req.body
+  
+  try {
+  //const receta =  await Recipe.findByPk(idReceta, {include: Diet})
+ const result = await Recipe.update(
+   {nombre: receta.nombre,
+    resumen: receta.resumen,
+    puntuacion: receta.puntuacion,
+    nivel_salud: receta.nivel,
+    paso_a_paso: receta.instrucciones
+  
+  },
+  {where: {id: receta.id}}
+ )
+  return res.send(result)
+ }
+ catch (error) {next(error)};
+});
 
 // Carga recetas propias en la base de datos
 router.post('/', async function(req, res, next){
