@@ -29,14 +29,13 @@ module.exports = (sequelize) => {
       type: DataTypes.TEXT,
     }
    
-
   });
 };
 
 // Si no le defino un primary key, sequelize crea un id de type integer autonum
 // Opcion para poner un id que no se choque con el que viene d ela API usand UUID.
 // Previamente hay que instalar el UUID haciendo: npm install uuid
-// Y luego para usarlo en donde hago la tuta de post, debiera importalo asi:
+// Y luego para usarlo en donde hago la ruta de post, debiera importalo asi:
 // const { v4: uuidv4 } = require('uuid')
 // y para usarlo (crear un nuevo uuid) haria: id: uuidv4()
 //

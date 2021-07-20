@@ -8,7 +8,6 @@ const { API_KEY } = process.env;
 
 const spoonacularURL = 'https://api.spoonacular.com/recipes/';
 
-
 // Endpoint para recetas:
 // Sin parametros (query): lista todas las recetas propias
 // Con parametro (query name): lista recetas de la API y propias que coincidan con le parametro.
@@ -19,8 +18,7 @@ router.get('/', async function(req, res, next) {
         let response = [];
         const resAxios = await axios.get(spoonacularURL + 'complexSearch?query=' + name + '&number=50' + '&addRecipeInformation=true' + '&apiKey=' + API_KEY );
         const { number, totalResults, results} = resAxios.data ;
-         
-         if (results.length > 0) {
+        if (results.length > 0) {
           let obj = {};
           for (let i = 0; i< results.length ; i++ ) {
             obj = {nombre: results[i].title, imagen: results[i].image, idApi: results[i].id, fuente: 'Api', puntuacion: results[i].spoonacularScore,  dietas: results[i].diets }
@@ -30,16 +28,12 @@ router.get('/', async function(req, res, next) {
         // ahora busco en la base de datos por recetas propias  
         // ****** Falta arreglar para que no importe mayusculas/minuscula en la comparacion  *****
         const recPropias = await Recipe.findAll({where: {nombre: {[Op.substring]: name}}, include: Diet});  
-        
         recPropias.forEach(e => {
         let objprop = {nombre: e.nombre, imagen: e.imagen, idApi: e.id, fuente: 'Propia', puntuacion: e.puntuacion, dietas: e.diets.map(d => d.id  )}
-        
         response.push(objprop);
         })
-        
         res.json(response);
         //response.length > 0 ?  res.json(response)    : res.send('No vino nada');
-        
       }
       catch (error) {next(error)};
     } 
@@ -47,8 +41,7 @@ router.get('/', async function(req, res, next) {
     {
      // Si no viene parametro de serach le mando todas las recetas propias 
      const recPropias = await Recipe.findAll({include: Diet});
-     
-     console.log('RecPropias: ', recPropias);
+     //console.log('RecPropias: ', recPropias);
      const response = [];
      recPropias.forEach(e => {
       let objprop = {nombre: e.nombre, imagen: e.imagen, idApi: e.id, fuente: 'Propia', puntuacion: e.puntuacion, dietas: e.diets.map(d => d.nombre  ) }
@@ -65,7 +58,6 @@ router.get('/:idReceta', async function(req, res, next) {
     const fuente = idRecetaArray[1];
     try {
       if (fuente === 'Api') {
-      
        const resAxios = await axios.get(spoonacularURL + idReceta + '/information?includeNutrition=false'+ '&apiKey=' + API_KEY );     
        const {id, title, image, summary, spoonacularScore, healthScore, instructions, diets, dishTypes } = resAxios.data;
        let obj = {
@@ -105,26 +97,23 @@ router.get('/:idReceta', async function(req, res, next) {
     catch (error) {next(error)};
 })
 
-// Borrar ua receta del BD segun su id
+// Borrar una receta del BD segun su id
 router.delete('/:idReceta', async function(req, res, next) {
   const idRecetaArray = req.params.idReceta.split('-');
   const idReceta = idRecetaArray[0];
   const fuente = idRecetaArray[1];
   try {
-  //const receta =  await Recipe.findByPk(idReceta, {include: Diet})
-  const numRows =  await Recipe.destroy({where: {id: idReceta}})
-  if(numRows > 0)
-  return res.send('Receta eliminada')
+    const numRows =  await Recipe.destroy({where: {id: idReceta}})
+   if(numRows > 0)
+   return res.send('Receta eliminada')
   return res.status(400).send('Error: receta inexistente')
- 
  }
  catch (error) {next(error)};
 });
 
-// Actualizar ua receta del BD con datos que vienen en el body
+// Actualizar ua receta del BD con datos que vienen en el body (no esta en uso aun)
 router.put('/', async function(req, res, next) {
   const receta = req.body
-  
   try {
   //const receta =  await Recipe.findByPk(idReceta, {include: Diet})
  const result = await Recipe.update(
@@ -133,9 +122,8 @@ router.put('/', async function(req, res, next) {
     puntuacion: receta.puntuacion,
     nivel_salud: receta.nivel,
     paso_a_paso: receta.instrucciones
-  
-  },
-  {where: {id: receta.id}}
+   },
+   {where: {id: receta.id}}
  )
   return res.send(result)
  }
@@ -147,33 +135,29 @@ router.post('/', async function(req, res, next){
  const {nombre, resumen, puntuacion, nivel, image, instrucciones, dietas} = req.body ;
  if (!nombre || !resumen) return res.status(400).send('Nombre y Resumen no pueden ser nulos');
  try {
- const recipe = await Recipe.create({
-    nombre: nombre,
-    resumen: resumen,
-    puntuacion: puntuacion,
-    nivel: nivel,
-    imagen: "https://www.freeiconspng.com/uploads/no-image-icon-4.png",
-    instrucciones: instrucciones
-    
-  })
+   const recipe = await Recipe.create({
+     nombre: nombre,
+     resumen: resumen,
+     puntuacion: puntuacion,
+     nivel: nivel,
+     imagen: "https://www.freeiconspng.com/uploads/no-image-icon-4.png",
+     instrucciones: instrucciones
+    })
 
-  if (Array.isArray(dietas) && dietas.length > 0) {
-  const dietasResult = await Promise.all(
-    dietas.map(value => Diet.findByPk(value))
-  )
-  // En caso que me vengan codigos ivalidos de tipo de dieta (filtro los nulos)
-  const dietasResultFiltered = dietasResult.filter(e => e)
+    if (Array.isArray(dietas) && dietas.length > 0) {
+      const dietasResult = await Promise.all(
+       dietas.map(value => Diet.findByPk(value))
+      )
+      // En caso que me vengan codigos ivalidos de tipo de dieta (filtro los nulos)
+      const dietasResultFiltered = dietasResult.filter(e => e)
 
-  // Actualizo la tabla intermedia d elas foreign keys
-  await recipe.setDiets(dietasResultFiltered)
+      // Actualizo la tabla intermedia de las foreign keys
+      await recipe.setDiets(dietasResultFiltered)
+    }
+
+    return res.status(200).send(recipe)
   }
-
-  return res.status(200).send(recipe)
-}
-catch (error) {next(error)}; 
-
+   catch (error) {next(error)}; 
 })
-
-
 
 module.exports = router;

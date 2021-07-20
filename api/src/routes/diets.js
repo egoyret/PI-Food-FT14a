@@ -13,10 +13,6 @@ router.get('/:id', function(req,res,next) {
      .catch(error => next(error))
 });
 
-/* router.get('/', function(req,res,next) {
-res.send('Aqui estoy')
-});
- */
 
 // Pruba de carga via nombre
 router.post('/:name', function(req, res) {
@@ -41,7 +37,5 @@ router.post('/', function(req, res) {
     return res.end()
     
 })
-
-
 
 module.exports = router;
