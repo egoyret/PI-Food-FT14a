@@ -32,7 +32,6 @@ const initialState =
     )
   });
 
-
   //console.log('dietasInput: ', dietasInput);
 
 function InputForm() {
@@ -57,10 +56,8 @@ function InputForm() {
         nivel: input.nivel,
         instrucciones: input.instrucciones,
         dietas : dietasId
-        
       }
-     // alert('Form ok para postear');
-     //dispatch(postReceta(receta))
+
      axios.post('http://localhost:3001/api/recipes',receta)
       .then((response) => {
        push(`/recipes/${response.data.id}`)
@@ -106,7 +103,7 @@ function InputForm() {
       disabled: !valid 
     });
 
- }
+  }
 
  function handleAllChecked(event) {
   let dietasv = dietas
@@ -121,88 +118,81 @@ function handleCheckChieldElement(event) {
         dieta.isChecked =  event.target.checked
   })
   setDietas(dietasv)
-  
 }
 
-
-  return (
-<>
-    
+return (
+ <>
     <form onSubmit={handleSubmit}> 
-     <fieldset><legend>Ingreso de receta propia</legend>
-      <label className="label-receta" htmlFor="nombre">Titulo (*)</label> 
-      <input
-        name="nombre"
-        type="text"
-        className="input-receta"
-        value={input.nombre}
-        onChange={handleChange}
-        placeholder="Titulo de la receta" /><br/>
-        {input.errors.nombre.length === 0 ? null : <div>{input.errors.nombre}</div>}
+       <fieldset><legend>Ingreso de receta propia</legend>
+        <label className="label-receta" htmlFor="nombre">Titulo (*)</label> 
+        <input
+          name="nombre"
+          type="text"
+          className="input-receta"
+          value={input.nombre}
+          onChange={handleChange}
+          placeholder="Titulo de la receta" /><br/>
+          {input.errors.nombre.length === 0 ? null : <div>{input.errors.nombre}</div>}
         
-      <label className="label-receta" htmlFor="resumen">Resumen (*)</label>  
-      <input
-        name="resumen"
-        type="text"
-        className="input-receta"
-        value={input.resumen}
-        onChange={handleChange}
-        placeholder="Un breve resumen del plato..." /><br/>
-        {input.errors.resumen.length === 0 ? null : <div>{input.errors.resumen}</div>}
+        <label className="label-receta" htmlFor="resumen">Resumen (*)</label>  
+        <input
+          name="resumen"
+          type="text"
+          className="input-receta"
+          value={input.resumen}
+          onChange={handleChange}
+          placeholder="Un breve resumen del plato..." /><br/>
+          {input.errors.resumen.length === 0 ? null : <div>{input.errors.resumen}</div>}
         
-      <label className="label-receta" htmlFor="puntuacion">Puntuación:</label>  
-      <input
-        name="puntuacion"
-        type="text"
-        className="input-receta"
-        value={input.puntuacion}
-        onChange={handleChange}
-        placeholder="Opcional,  de 0 a 100" /><br/>
-        {input.errors.puntuacion.length === 0 ? null : <div>{input.errors.puntuacion}</div>}
+        <label className="label-receta" htmlFor="puntuacion">Puntuación:</label>  
+        <input
+          name="puntuacion"
+          type="text"
+          className="input-receta"
+          value={input.puntuacion}
+          onChange={handleChange}
+          placeholder="Opcional,  de 0 a 100" /><br/>
+          {input.errors.puntuacion.length === 0 ? null : <div>{input.errors.puntuacion}</div>}
         
-      <label className="label-receta" htmlFor="nivel">Nivel salud:</label>  
-      <input
-        name="nivel"
-        type="text"
-        className="input-receta"
-        value={input.nivel}
-        onChange={handleChange}
-        placeholder="Opcional, valor de 0 a 100" /><br/>
-        {input.errors.nivel.length === 0 ? null : <div>{input.errors.nivel}</div>}
+        <label className="label-receta" htmlFor="nivel">Nivel salud:</label>  
+        <input
+          name="nivel"
+          type="text"
+          className="input-receta"
+          value={input.nivel}
+          onChange={handleChange}
+          placeholder="Opcional, valor de 0 a 100" /><br/>
+          {input.errors.nivel.length === 0 ? null : <div>{input.errors.nivel}</div>}
         
-      <label className="label-receta" htmlFor="instrucciones">Paso a paso:</label> <br/>   
-      <textarea
-        className="textarea"
-        name="instrucciones"
-        type="text"
-        value={input.instrucciones}
-        onChange={handleChange}
-        placeholder="Opcional: pasos de la elaboracion del plato..." />
+        <label className="label-receta" htmlFor="instrucciones">Paso a paso:</label> <br/>   
+        <textarea
+          className="textarea"
+          name="instrucciones"
+          type="text"
+          value={input.instrucciones}
+          onChange={handleChange}
+          placeholder="Opcional: pasos de la elaboracion del plato..." />
 
-      <div className="AppCheck">
-       <p> Seleccione las dietas </p>
-       <input type="checkbox" onChange={handleAllChecked}  value="checkedall" /> Check / Uncheck All
-        <ul>
-        {
-          dietas.map((dieta, index) => {
-            return (<CheckBox key={index} handleCheckChieldElement={handleCheckChieldElement} checked={dieta.isChecked} value={dieta.value} />)
-          })
-        }
-        </ul>
-      </div>
+       <div className="AppCheck">
+         <p> Seleccione las dietas </p>
+         <input type="checkbox" onChange={handleAllChecked}  value="checkedall" /> Check / Uncheck All
+          <ul>
+            {
+            dietas.map((dieta, index) => {
+              return (<CheckBox key={index} handleCheckChieldElement={handleCheckChieldElement} checked={dieta.isChecked} value={dieta.value} />)
+            })
+            }
+          </ul>
+       </div>
       
-      
-      <input className="btn-submit" disabled={input.disabled} type="submit" value="Submit" />
-      <span className="mandatorios">(*) Campos mandatorios</span>
-      <br/>
- </fieldset>
+        <input className="btn-submit" disabled={input.disabled} type="submit" value="Submit" />
+        <span className="mandatorios">(*) Campos mandatorios</span>
+        <br/>
+       </fieldset>
     </form>
-   </> 
-  )
+ </> 
+)
 }
 
 export default InputForm;
 
-//   <Link to={'/home'} className="btn-ing">
-// {'Home'} 
-// </Link>

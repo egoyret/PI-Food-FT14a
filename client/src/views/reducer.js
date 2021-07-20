@@ -25,14 +25,11 @@ export default function reducer(state = initialState, action) {
             return {...state, recetas: state.recetas.slice().sort(function(b, a) {if(a.puntuacion > b.puntuacion) return 1; if(a.puntuacion < b.puntuacion) return -1; return 0;})};
           };
     
-
         case FILTER_PUNTUACION:
-            
             return {...state, recetas: state.recetas.filter(item => item.puntuacion >= parseInt(action.payload) )};
          
         case FILTER_DIETAS:
-              
-              return {...state, recetas: state.recetas.filter(item => 
+            return {...state, recetas: state.recetas.filter(item => 
               { 
                if(item.dietas.length>0) {
                   let result
@@ -45,15 +42,11 @@ export default function reducer(state = initialState, action) {
                  return false 
                 }
               }
-              )};
-              
-              
-              
+            )};
               
         case RESET_FILTER:
             return {...state, recetas: state.originales}  
 
         default: return state
     }
-     
 }

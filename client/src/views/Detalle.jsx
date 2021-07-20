@@ -63,6 +63,5 @@ function Detalle(){
         </div>
    ) 
 }
- //           <a href="edit" className="btn btn-primary">EDIT</a>
- //            <a href="delete" className="btn btn-danger">DELETE</a>
+
 export default Detalle;
