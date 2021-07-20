@@ -7,9 +7,7 @@ import './Navbar.css';
 export default function NavBar() {
     return (
         <header className="navbar">
-            <div>
-               <p className="nav-title">Henry Food</p>
-            </div>
+           
             <nav>
                 <ul className="list">
                     <li className="list-item">

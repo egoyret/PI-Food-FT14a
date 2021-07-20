@@ -86,7 +86,7 @@ if (list.length > 0) {
        <ul style={{listStyleType: "none"}}>
         {currentItems.map((r) => 
         <div>
-            <li key={r.idApi} className={"caja"}>
+            <li key={r.fuente + r.idApi} className={"caja"}>
               <div className={"caja-datos"}>
                  <img src={r.imagen} width="350" alt='' className={"caja-imagen"}/>
                  <div className={"caja-datosTexto"}>

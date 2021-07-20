@@ -23,7 +23,7 @@ function Home() {
 
     const dispatch = useDispatch() 
     const [puntuacion, setPuntuacion] = useState(0);
-    const [ordenamiento, setOrdenamiento] = useState(''); 
+    const [ordenamiento, setOrdenamiento] = useState('nombre-a'); 
     const [title, setTitle] = useState('');
     const [dietas, setDietas] = useState(dietasInput);
 
@@ -93,7 +93,11 @@ function Home() {
 
       function resetearFiltros () {
         dispatch(resetFilter())
-        history.push('/lista')
+        // inicializo el filtro de dietas con el valor inicial dietasInput
+       // Por alguna razon dietasInput hay que inicializarlo pues queda cargado con los checks
+       dietasInput.forEach(item => item.isChecked = false)
+       setDietas(dietasInput);
+       history.push('/lista')
       }
 
       function filtrarDietas () {
@@ -114,7 +118,7 @@ function Home() {
           <div className='barraHome'>
            <label className="labels-home" htmlFor="title" >Comida: </label>
            <input type="text" className="cajaTitle" id="title" autoComplete="off" placeholder="Ravioles con tuco..."   value={title} onChange={(e) => handleChangeTitle(e)}></input>
-           <button type="submit">BUSCAR</button><br/>
+           <button type="submit" className="btn btn-home">BUSCAR</button><br/>
           </div>
          </form>
 

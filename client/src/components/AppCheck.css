@@ -65,12 +65,9 @@
     list-style: none;
   }
 
- .barraHome {
-   margin-bottom: 20px;
-  
- }
+ 
 
- .btn-submit {
+  .btn-submit {
   padding: .5em 1em;
   border-radius: 28px;
   background-color: #3498db;
@@ -184,44 +181,65 @@
   margin-bottom: 8px;
 }
 
+.receta-datos-adic {
+  width: 300px;
+  display: flex;
+
+
+}
+
 .botones-detalle {
   display: flex;
   justify-content: flex-start;
   justify-content: space-between;
-  width: 200px;
+  width: 350px;
   margin-top: 10px;
   
 }
-.cajaTitle {
-    width: 300px;
-}
+
 
 /*  Home   */
-
+.cajaTitle {
+    width: 350px;
+    
+}
 .home-bottom {
   margin-top: 0px;
 }
-
+.barraHome {
+   margin-bottom: 20px;
+  }
+.barrahome label {
+  font-size: 25px;
+}  
 .titulo-home {
   margin-bottom: 10px;
   margin-top: 10px;
+}
+
+.btn-home {
+  margin-left: 15px;
 }
 
 .labels-home {
   display:inline-block;
   margin-top: 0.5em;
   width: 105px;
+  
 }
 .label-ordenamiento {
   display:inline;
   margin-top: 0.5em;
   width: 300px;
+ 
 }
 .ordenamiento {
    margin-bottom: 10px;
    display: inline;
-   width: 200px;
+   width: 200px;   
  }
+
+ /**********************/
 
 .landing {
     margin-top: 10px;

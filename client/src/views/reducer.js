@@ -13,9 +13,9 @@ export default function reducer(state = initialState, action) {
 
         case ORDER_RECETAS_NOMBRE:
           if(action.payload === 'A' ) { 
-            return {...state, recetas: state.recetas.slice().sort(function(a, b) {if(a.nombre > b.nombre) return 1; if(a.nombre < b.nombre) return -1; return 0;})};
+            return {...state, recetas: state.recetas.slice().sort(function(a, b) {if(a.nombre.toLowerCase() > b.nombre.toLowerCase()) return 1; if(a.nombre.toLowerCase() < b.nombre.toLowerCase()) return -1; return 0;})};
           } else {
-            return {...state, recetas: state.recetas.slice().sort(function(b, a) {if(a.nombre > b.nombre) return 1; if(a.nombre < b.nombre) return -1; return 0;})};
+            return {...state, recetas: state.recetas.slice().sort(function(b, a) {if(a.nombre.toLowerCase() > b.nombre.toLowerCase()) return 1; if(a.nombre.toLowerCase() < b.nombre.toLowerCase()) return -1; return 0;})};
           };
 
         case ORDER_RECETAS_PUNTUACION:

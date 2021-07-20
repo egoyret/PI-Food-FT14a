@@ -1,34 +1,35 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { mount } from 'enzyme';
-import Form  from '../views/InputForm.jsx';
+import InputForm  from '../src/views/InputForm.jsx';
+import '@testing-library/jest-dom';
 
 describe('<Form /> Mounted', () => {
   let wrapper;
   beforeEach(() => {
-    wrapper = mount(<Form />);
+    wrapper = mount(<InputForm />);
   });
   it('El form debe tener un label que diga: "Titulo (*)"', () => {
-      const { container } = render(<Form />)
+      const { container } = render(<InputForm />)
       const element = container.querySelectorAll('label')[0]
       expect(element.innerHTML).toBe('Titulo (*)');
   });
 
   it('El form debe tener un label que diga: "Resumen (*)"', () => {
-    const { container } = render(<Form />)
+    const { container } = render(<InputForm />)
     const element = container.querySelectorAll('label')[1]
     expect(element.innerHTML).toBe('Resumen (*)');
   });
 
   it('El form debe tener un input con name "nombre" y type "text"', () => {
-    const { container } = render(<Form />)
+    const { container } = render(<InputForm />)
     const element = container.querySelectorAll('input')[0]
     expect(element.type).toBe('text');
     expect(element.name).toBe('nombre');
   });
 
   it('El form debe tener un input con name "resumen" y type "text"', () => {
-    const { container } = render(<Form />)
+    const { container } = render(<InputForm />)
     const element = container.querySelectorAll('input')[1]
     expect(element.type).toBe('text');
     expect(element.name).toBe('resumen');
