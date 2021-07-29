@@ -69,14 +69,9 @@ let pageDecrementBtn = null;
    pageDecrementBtn = <li onClick={handlePrevbtn}> &hellip; </li>
  }  
 
-const handleLoadMore = () => {
-   setRecetasPerPage(recetasPerPage + 2);
-}
-
-const handleLoadLess = () => {
-  if(recetasPerPage > 2) setRecetasPerPage(recetasPerPage - 2);
-}
-
+// const handleLoadMore = () => {
+//   setRecetasPerPage(recetasPerPage + 9);
+// }
 if (list.length > 0) {
  return (
     
@@ -109,26 +104,29 @@ if (list.length > 0) {
           )}
         </ul>
         <br/>
-
         <ul className="pageNumbers">
           <li>
-            <button onClick={handlePrevbtn} disabled={pageNumber === pages[0] ? true : false}>Prev</button>
+            <button onClick={handlePrevbtn}
+            disabled={pageNumber === pages[0] ? true : false}
+            >
+              Prev
+            </button>
           </li>
           {pageDecrementBtn}
           {renderPageNumbers}
           {pageIncrementBtn}
           <li>
-            <button onClick={handleNextbtn} disabled={pageNumber === pages[pages.length - 1] ? true : false}>Next</button>
+            <button onClick={handleNextbtn}
+            disabled={pageNumber === pages[pages.length - 1] ? true : false}
+            >
+            Next
+            </button>
           </li>
-          <div className="loadbuttons">
-            <button onClick={handleLoadMore} className="loadmore">+ items p/p</button>
-            <button onClick={handleLoadLess} className="loadmore">- items p/p</button>
-          </div>
-        </ul>
-        
-
-     </>
-
+      </ul>
+      {/*       <button onClick={handleLoadMore} className="loadmore">
+        Load more
+      </button> */}
+    </>
        ) : (
         <div>Cargando...</div>
        )}

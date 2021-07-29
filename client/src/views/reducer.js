@@ -29,13 +29,14 @@ export default function reducer(state = initialState, action) {
             return {...state, recetas: state.recetas.filter(item => item.puntuacion >= parseInt(action.payload) )};
          
         case FILTER_DIETAS:
+           console.log('Action: ', action.payload);
             return {...state, recetas: state.recetas.filter(item => 
               { 
                if(item.dietas.length>0) {
-                  let result
-                  action.payload.length === 0 ? result = true : result = false;
+                  let result = true
+                 // action.payload.length === 0 ? result = true : result = false;
                   for(let i=0; i<action.payload.length; i++){
-                   result = item.dietas.includes(action.payload[i].toLowerCase()) || result
+                   result = item.dietas.includes(action.payload[i].toLowerCase()) && result
                   }
                   return result
                 } else {
