@@ -89,7 +89,6 @@
    font-family: 'Lato', sans-serif;
    font-size: .8em;
    cursor: pointer;
-   margin-top: 20px;
    text-decoration: none;
  }
 
@@ -117,7 +116,7 @@
   flex-direction: column;
   border: 3px solid grey;
   background-color:rgb(214, 220, 226);
-  width: 800px;
+  width: 600px;
   height: 250px;
   margin-top: 40px;
   margin-right: 20px;
@@ -128,7 +127,7 @@
 
 .caja-headers {
   display: flex;
-  justify-content: flex-start;
+  
   justify-content:space-between;
   width: 800px;
   margin-left: 50px;
@@ -142,10 +141,18 @@
   justify-content: space-around;
  }
 
+ .caja-imagen {
+   display: flex;
+ }
 .caja-datosTexto {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.caja-datosTexto p {
+  text-align: center;
+ 
 }
 
 .caja-nombre {
@@ -153,6 +160,11 @@
   font-family: Arial;
   text-align: center;
 
+}
+.listado {
+  display: flex;
+  width: 1375px;
+  flex-wrap:wrap;
 }
 
 /****************************/
@@ -199,8 +211,25 @@
 
 
 /*  Home   */
+
+.total-container {
+  display: flex
+}
+
+.big-container {
+  width: 450px;
+  border:solid;
+  border:tomato;
+}
+
+.small-container {
+ margin-left: 100px;
+ border:solid;
+ border-radius: 10px;
+}
 .cajaTitle {
-    width: 350px;
+    width: 280px;
+    height: 30px;
     
 }
 .home-bottom {
@@ -208,7 +237,18 @@
 }
 .barraHome {
    margin-bottom: 20px;
+   width: 500px;
+   height: 50px;
+   border: solid;
+   border-radius: 10px;
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+   background-color:rgb(214, 220, 226);
   }
+ .barraHome_search {
+   display: flex;
+ } 
 .barrahome label {
   font-size: 25px;
 }  
@@ -224,35 +264,66 @@
 .labels-home {
   display:inline-block;
   margin-top: 0.5em;
-  width: 105px;
-  
+  width: 100px;
+  margin-left: 5px;
+  font-size: 20px;
+  font-weight: bold;
 }
 .label-ordenamiento {
   display:inline;
   margin-top: 0.5em;
   width: 300px;
+  
  
 }
 .ordenamiento {
    margin-bottom: 10px;
-   display: inline;
-   width: 200px;   
+   width: 200px; 
+   height: 50px;
+   border: solid;
+   display: flex;
+   align-items: center;
+     
  }
+
+.ordenamiento_select {
+  display: flex;
+  direction: row;
+  align-items: center;
+  justify-content: space-between;
+
+}
+.ordenamiento_label {
+  display:inline-block;
+}
+
+.dietas_detail {
+  display: flex;
+  flex-direction: column;
+
+  ;
+}
+
+.dietas_zone {
+  width: 500px;
+  display: flex;
+  justify-content: space-between;
+}
 
  /**********************/
 
 .landing {
     margin-top: 10px;
-    height: 550px;
-    background-image:  url("./images/cooking.png")  ;
+    height: 950px;
+    background-image:  url("https://image.freepik.com/psd-gratis/comida-es-buena-idea-maqueta-marco-hecho-deliciosas-verduras-frescas_23-2148420156.jpg")  ;
     background-color: transparent;
     background-position: 50% 50%;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
-.landing-btnx {
-   margin-left: 300px;
-   width: 150px;
-   font-size: 25px;
-   font-family:Arial, Helvetica, sans-serif;
+.landing-bienvenidos {
+  margin-top: 5px;
+  text-align: center;
 }
 
   .landing-btn {
@@ -262,12 +333,7 @@
     display: grid; 
    
   }
-  .landing-btnxxx {
-    border: 2px solid red;  
-    width: 600px;  
-    height: 75px; 
-    display: grid; 
-  }
+ 
 
   .btn-land {
     font-size: 25px;
@@ -288,7 +354,7 @@
   .landing-topx {
     display: flex
   }
-  body {
+  bodyx {
     background: #D0E4F5 url("./images/food.png")  scroll 0% 0%;
   }
 

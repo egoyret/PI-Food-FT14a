@@ -27,7 +27,7 @@ function Detalle(){
        <div>
            <div className={"botones-detalle"}>
    
-             <Link to={'/lista'} className="btn">
+             <Link to={'/home'} className="btn">
               {'Volver al listado'} 
              </Link>  
              {receta && receta.fuente === "Propia" ? <button onClick={borraReceta} className="btn">Eliminar receta</button> : null}

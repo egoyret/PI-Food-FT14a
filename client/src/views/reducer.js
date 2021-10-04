@@ -1,13 +1,14 @@
-import { SET_RECETAS, SET_RECETA, ORDER_RECETAS_NOMBRE, ORDER_RECETAS_PUNTUACION, FILTER_DIETAS, FILTER_PUNTUACION, RESET_FILTER } from './actions'
+import { SET_RECETAS, SET_RECETA, ORDER_RECETAS_NOMBRE, ORDER_RECETAS_PUNTUACION, FILTER_DIETAS, FILTER_PUNTUACION, RESET_FILTER, FILTER_TIPO_RECETAS } from './actions'
 const initialState = {
 recetas: [],
 originales: [],
+ultimoFiltro: [],
 receta: {}
 };
 export default function reducer(state = initialState, action) {
   
     switch(action.type) {
-        case SET_RECETAS: return {...state, recetas: action.payload, originales: action.payload }
+        case SET_RECETAS: return {...state, recetas: action.payload, originales: action.payload, ultimoFiltro: action.payload  }
 
         case SET_RECETA: return {...state,  receta: action.payload  }
 
@@ -27,10 +28,19 @@ export default function reducer(state = initialState, action) {
     
         case FILTER_PUNTUACION:
             return {...state, recetas: state.recetas.filter(item => item.puntuacion >= parseInt(action.payload) )};
+
+         case FILTER_TIPO_RECETAS:
+           if(action.payload === 'Todas') {
+             return {...state, recetas: state.originales}
+           }
+           else
+           {
+            return {...state, recetas: state.originales.filter(item => item.fuente === action.payload )};
+           } ;
          
         case FILTER_DIETAS:
            console.log('Action: ', action.payload);
-            return {...state, recetas: state.recetas.filter(item => 
+            return {...state, recetas: state.originales.filter(item => 
               { 
                if(item.dietas.length>0) {
                   let result = true

@@ -9,6 +9,7 @@ export const GET_DIETAS = "GET_DIETAS";
 export const ORDER_RECETAS_NOMBRE = "ORDER_RECETAS_NOMBRE";
 export const ORDER_RECETAS_PUNTUACION = "ORDER_RECETAS_PUNTUACION";
 export const FILTER_DIETAS = "FILTER_DIETAS";
+export const FILTER_TIPO_RECETAS = "FILTER_TIPO_RECETAS"
 
 
 // Aca se comunica con nuestro backend que esta operando en 3001
@@ -33,6 +34,10 @@ export function orderRecetasPuntuacion(order) {
 
 export function filterPuntuacion(valor) {
  return {type: FILTER_PUNTUACION, payload: valor};
+}
+
+export function filterTipoReceta(valor) {
+  return {type: FILTER_TIPO_RECETAS, payload: valor};
 }
 
 export function filterDietas(dietas) {

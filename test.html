@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        console.log('funciona');
+        function Persona(nombre){
+            return {
+                nombre,
+                saludar: function(){
+                    console.log('hola')
+                }
+            }
+        }
+        class Animal {
+            constructor(nombre) {
+                this.nombre = nombre
+                this.correr = function(){
+                    console.log('estoy corriendo')
+                }
+            }
+        }
+
+        class Perro extends Animal {
+            constructor(nombre){
+                super(nombre)
+                this.ladrar = function() {
+                    console.log('guau!')
+                }
+            }
+        }
+        var mica = new Animal('mica')
+        var penny = new Perro('penny')
+        
+    </script>
+</body>
+</html>

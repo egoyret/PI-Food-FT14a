@@ -1,29 +1,30 @@
 import { useSelector } from "react-redux";
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './AppCheck.css'
 
-function Lista() {
+function Lista(props) {
+  console.log('Lista props: ', props);
 
 const list = useSelector(state => state.recetas)
 const [pageNumber, setPageNumber] = useState(1);
 const [pageNumberLimit, setPageNumberLimit] = useState(10);
 const [maxPageNumberLimit, setmaxPageNumberLimit] = useState(10);
 const [minPageNumberLimit, setminPageNumberLimit] = useState(0);
-const [recetasPerPage, setRecetasPerPage] = useState(9);
+const [recetasPerPage, setRecetasPerPage] = useState(10);
 // const recetasPerPage = 5 ;
+useEffect(()=>{
+  setPageNumber(1);
+},[]);
+
 const indexOfLastItem = pageNumber * recetasPerPage ;
 const indexOfFirstItem = indexOfLastItem - recetasPerPage;
-
 const pageCount = Math.ceil(list.length / recetasPerPage);
 const currentItems = list.slice(indexOfFirstItem, indexOfLastItem);
-
-
 const pages = [];
 for(let i=1; i<= pageCount; i++) {
   pages.push(i);
 }
-
 const handleClick = (event) =>{
   setPageNumber(Number(event.target.id));
 }
@@ -77,23 +78,28 @@ const handleLoadLess = () => {
   if(recetasPerPage > 2) setRecetasPerPage(recetasPerPage - 2);
 }
 
-if (list.length > 0) {
+
  return (
     
   <>    
     <div className={"caja-headers"}>     
-         <h2>Listado de Recetas</h2>
+       <div>
+         <h2>Listado de Recetas: </h2>
+         <h2>{props.search}</h2>
+       </div> 
          <h2>Total de recetas: {list.length}</h2>
     </div>   
           
     {list ? (
      <> 
-       <ul style={{listStyleType: "none"}}>
+       <ul className="listado" style={{listStyleType: "none"}}>
         {currentItems.map((r) => 
         <div>
             <li key={r.fuente + r.idApi} className={"caja"}>
               <div className={"caja-datos"}>
-                 <img src={r.imagen} width="350" alt='' className={"caja-imagen"}/>
+                 <div className={"caja-imagen"}>
+                   <img src={r.imagen} width="350" alt='' />
+                 </div>
                  <div className={"caja-datosTexto"}>
                    <Link to={`/recipes/${r.idApi}-${r.fuente}`} className={"caja-nombre"}>
                     {r.nombre} 
@@ -135,16 +141,8 @@ if (list.length > 0) {
  </>
     
  )
-} else {
-  return (
-   <div> 
-     <h2>No hay datos</h2> 
-     <Link to={'/home'} className="btn">
-      {'Home'} 
-    </Link>
-   </div>
-  )
-}
+
+
 }
 
 export default Lista;

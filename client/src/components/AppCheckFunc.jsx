@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import './AppCheck.css'
 import  CheckBox  from './CheckBox'
-import axios from "axios";
 
  // Cargo las dietas
  /* var dietasInput = [];

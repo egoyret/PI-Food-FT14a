@@ -8,14 +8,18 @@ export default function NavBar() {
     return (
         <header className="navbar">
            
-            <nav>
-                <ul className="list">
-                    <li className="list-item">
-                        <Link to="/home" >Home</Link>
-                        <Link to="/form" >Ingresar receta</Link>
-                    </li>
-                </ul>
-            </nav>
+               <div>
+                <Link to="/" >Henry Food</Link>
+               </div>  
+               <nav>
+                  <ul className="list">
+                      <li className="list-item">
+                          <Link to="/home" >Home</Link>
+                          <Link to="/form" >Ingresar receta</Link>
+                      </li>
+                  </ul>
+               </nav>
+           
         </header>
     )
 }

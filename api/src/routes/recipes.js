@@ -39,15 +39,32 @@ router.get('/', async function(req, res, next) {
     } 
     else 
     {
-     // Si no viene parametro de serach le mando todas las recetas propias 
+      try {
+     // Si no viene parametro de serach le mando todas las recetas propias y externas 
+     const response = [];
+     // Recetas externas
+     const resAxios = await axios.get(spoonacularURL + 'complexSearch?number=50' + '&addRecipeInformation=true' + '&apiKey=' + API_KEY );
+     //console.log('data: ',resAxios.data);
+     const { number, totalResults, results} = resAxios.data ;
+     if (results.length > 0) {
+       let obj = {};
+       for (let i = 0; i< results.length ; i++ ) {
+         obj = {nombre: results[i].title, imagen: results[i].image, idApi: results[i].id, fuente: 'Api', puntuacion: results[i].spoonacularScore,  dietas: results[i].diets }
+         response.push(obj);
+       }
+     } 
+     // Recetas propias
      const recPropias = await Recipe.findAll({include: Diet});
      //console.log('RecPropias: ', recPropias);
-     const response = [];
+     
      recPropias.forEach(e => {
       let objprop = {nombre: e.nombre, imagen: e.imagen, idApi: e.id, fuente: 'Propia', puntuacion: e.puntuacion, dietas: e.diets.map(d => d.nombre  ) }
       response.push(objprop);
       })
-     return res.status(200).json(response);
+      res.status(200).json(response);
+      }
+      catch (error) {next(error)};
+    
     }
 })
 
