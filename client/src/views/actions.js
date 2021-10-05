@@ -15,7 +15,7 @@ export const FILTER_TIPO_RECETAS = "FILTER_TIPO_RECETAS"
 // Aca se comunica con nuestro backend que esta operando en 3001
 export function getRecetas(search) {
       return(dispatch) => {
-      axios.get(`http://localhost:3001/api/recipes?name=${search}`)
+      axios.get(`/api/recipes?name=${search}`)
      .then((response) => {
        let recetas = response.data ;
        dispatch({type: SET_RECETAS, payload: recetas});
@@ -52,7 +52,7 @@ export function resetFilter() {
 
 export function getReceta(idReceta) {
   return(dispatch) => {
-    axios.get(`http://localhost:3001/api/recipes/${idReceta}`)
+    axios.get(`/api/recipes/${idReceta}`)
    .then((response) => {
     dispatch({type: SET_RECETA, payload: response.data});
    });
@@ -61,7 +61,7 @@ export function getReceta(idReceta) {
 
 export function getDietas() {
   return(dispatch) => {
-    axios.get('http://localhost:3001/api/diets/types')
+    axios.get('/api/diets/types')
    .then((response) => {
     dispatch({type: GET_DIETAS, payload: response.data});
    });
@@ -70,7 +70,7 @@ export function getDietas() {
 
 export function postReceta(receta) {
   return(dispatch) => {
-    axios.post('http://localhost:3001/api/recipes',receta)
+    axios.post('/api/recipes',receta)
    .then((response) => {
     dispatch({type: CARGA_RECETA, payload: response.data});
    }).catch(error => {console.log(error.response.status)});
@@ -79,7 +79,7 @@ export function postReceta(receta) {
 
 export function postRecetaTest(receta) {
   return(dispatch) => {
-    axios.post('http://localhost:3001/api/recipes',receta)
+    axios.post('/api/recipes',receta)
    .then((response) => {
     dispatch({type: SET_RECETA, payload: response.data.idApi});
    });

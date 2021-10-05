@@ -27,9 +27,9 @@ const { conn, Diet } = require('./src/db.js');
 // Syncing all the models at once.
 // Inicializo el modelo de base de datos, haciendo los cambios que correspondan en la tablas que ya existan o creando tablas nuevas (force: true).
 // Luego me pongo a escuchar el puerto 3001
-const update = false ;
+const update = true ;
 conn.sync({ force: update }).then(() => {
-  server.listen(3001, () => {
+  server.listen(process.env.port, () => {
     console.log('%s listening at 3001'); // eslint-disable-line no-console
     if (update)
     {
@@ -40,7 +40,3 @@ conn.sync({ force: update }).then(() => {
 
   });
 });
-
-
-// Probando
-// server.listen(3001, () => {console.log('listening at 3001')});
