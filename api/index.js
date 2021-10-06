@@ -29,7 +29,7 @@ const { conn, Diet } = require('./src/db.js');
 // Luego me pongo a escuchar el puerto 3001
 const update = true ;
 conn.sync({ force: update }).then(() => {
-  server.listen(process.env.port, () => {
+  server.listen(process.env.PORT, () => {
     console.log('%s listening at 3001'); // eslint-disable-line no-console
     if (update)
     {
