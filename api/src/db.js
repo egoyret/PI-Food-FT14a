@@ -4,9 +4,7 @@ require('dotenv').config();
 const { Sequelize } = require('sequelize');
 const fs = require('fs');
 const path = require('path');
-const {
-  DB_USER, DB_PASSWORD, DB_HOST, ELEPHANT_CONNECT
-} = process.env;
+const { DB_USER, DB_PASSWORD, DB_HOST, DB_NAME} = process.env;
 
 // Creo mi instancia de la clase Sequelize y direcciono a mi base de datos.
 // Previamente debo haber creado mi base de datos (food) desde la consola de PSQL como CREATE DATABASE food
