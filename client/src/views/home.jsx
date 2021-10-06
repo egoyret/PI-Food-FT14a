@@ -8,7 +8,7 @@ import Lista from '../components/Lista'
 import { orderRecetasNombre, orderRecetasPuntuacion, filterPuntuacion, filterDietas, resetFilter, filterTipoReceta } from "../views/actions.js";
 import  AppCheck  from '../components/AppCheck'
 
-  // Cargo las dietas
+  //  Cargo las dietas
   let dietasInput = [];
   let obj = {};
   axios.get('http://localhost:3001/api/diets/types')
